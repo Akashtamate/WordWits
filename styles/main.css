@@ -1,0 +1,134 @@
+@font-face {
+    font-family: "nyt-karnak"; /* You can name the font as you wish */
+    src: url("../fonts/KarnakPro-Light.ttf") format("truetype"); /* Path to the .ttf file */
+    font-weight: normal;  /* You can specify if it is bold, regular, etc. */
+    font-style: normal;   /* You can specify if it is italic, normal, etc. */
+}
+
+@font-face {
+    font-family: "nyt-franklin";
+    src: url("../fonts/franklin-normal-300.ttf") format("truetype");
+}
+
+:root {
+    --nyt-KarnakCondensed: "NYTKarnakCondensed", sans-serif;
+    --nyt-karnak: "nyt-karnak", sans-serif;
+    --nyt-franklin: "nyt-franklin", sans-serif;
+    --color-bg: #e3e3e1;
+}
+
+body {
+    background-color: var(--color-bg);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.landing-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    padding: 1.5rem;
+}
+
+.logo {
+    height: 4rem;
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-family: var(--nyt-KarnakCondensed);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    text-align: center;
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    /*font-size: 2.25rem;  */
+}
+
+.subtitle {
+    font-family: var(--nyt-karnak);
+    font-weight: bold;
+    font-size: clamp(1.5rem, 4vw, 2.15rem);
+    text-align: center;
+    margin: 0 0 1.75rem;
+    line-height: 1.5rem; /* 28px */ 
+    
+}
+
+.subtitle-nowrap {
+    white-space: nowrap;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 26px;
+}
+
+.sign-button {
+    height: 3rem;
+    border-radius: 1.5rem;
+    font-family: var(--nyt-franklin);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0 2rem;
+    background-color: var(--color-bg);
+    color: #000;
+    border: 2px solid black;
+}
+
+.date-footer {
+    font-family: var(--nyt-franklin);
+    font-weight: 600;
+    margin-top: 0;
+}
+
+@media (min-width: 760px) {
+    .title {
+        font-size: 2.75rem; /* 44px */
+        line-height: 1.045em; /* 46px */
+    }
+
+    .subtitle {
+        max-width: 18.75rem; /* 300px */
+        font-size: 1.7rem; /* 32px */
+        line-height: 2.5rem; /* 36px */
+    }
+
+    .button-container {
+        margin-bottom: 28px;
+        flex-direction: row;
+    }
+
+    .sign-button {
+        width: 180px;
+    }
+}
+
+@media (min-width: 768px) {
+    .logo {
+        height: 5rem; /* 80px */
+        margin-bottom: 0.75rem; /* 12px */
+    }
+}
+
+@media (min-width: 992px) {
+    .title {
+        font-size: 50px;
+        line-height: 52px;
+    }
+
+    .subtitle {
+        max-width: 23.4375rem; /* 375px */
+        font-size: 2.15rem; /* 38px */
+        line-height: 2.2rem; /* 44px */
+        margin-bottom: 2.25rem; /* 36px */
+    }
+}
