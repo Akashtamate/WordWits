@@ -15,16 +15,20 @@
     --nyt-karnak: "nyt-karnak", sans-serif;
     --nyt-franklin: "nyt-franklin", sans-serif;
     --color-bg: #e3e3e1;
+    --button-bg: #000;
 }
 
 body {
-    background-color: var(--color-bg);
     margin: 0;
     padding: 0;
+}
+
+.container {
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    background-color: var(--color-bg);
 }
 
 .landing-page-container {
@@ -44,9 +48,10 @@ body {
     font-family: var(--nyt-KarnakCondensed);
     font-size: clamp(2rem, 5vw, 2.75rem);
     text-align: center;
-    line-height: 1.2;
+    line-height: 2;
     margin: 0 0 0.75rem;
-    /*font-size: 2.25rem;  */
+    /*font-size: 2.25rem;*/
+    font-weight: 500;  
 }
 
 .subtitle {
@@ -71,7 +76,7 @@ body {
     margin-bottom: 26px;
 }
 
-.sign-button {
+.login-button {
     height: 3rem;
     border-radius: 1.5rem;
     font-family: var(--nyt-franklin);
@@ -79,9 +84,10 @@ body {
     font-size: 1rem;
     cursor: pointer;
     padding: 0 2rem;
-    background-color: var(--color-bg);
-    color: #000;
-    border: 2px solid black;
+    background-color: var(--button-bg);
+    color: white;
+    outline: none;
+    border: none;
 }
 
 .date-footer {
@@ -107,7 +113,7 @@ body {
         flex-direction: row;
     }
 
-    .sign-button {
+    .login-button {
         width: 180px;
     }
 }
