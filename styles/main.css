@@ -171,6 +171,7 @@ body {
 
 .password-container-validation {
     margin-top: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .auth-label {
@@ -211,7 +212,7 @@ body {
     color: rgb(118, 118, 118);
 }
 
-.continue-button {
+.continue-button, .create-account-button {
     margin-top: 1rem;;
     width: 100%;
     height: 2.75rem;
@@ -231,7 +232,7 @@ body {
     transition: 0.15s ease-in;
 }
 
-#hidden, #hidden-password {
+#hidden, #hidden-password, #hidden-create-account {
     display: none;
 }
 

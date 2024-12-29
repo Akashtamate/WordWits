@@ -1,5 +1,7 @@
+const authTitleEle = document.querySelector('.js-auth-title');
 const emailIDEle = document.querySelector('.js-email-input');
 const continueButtonEle = document.querySelector('.js-continue-button');
+const createAccountButtonEle = document.querySelector('.js-create-account-button');
 const errorContainerEle = document.querySelector('.js-error-container');
 const passwordContainerEle = document.querySelector('.js-password-container-validation');
 const editButtonEle = document.querySelector('.js-edit-button');
@@ -23,15 +25,23 @@ emailIDEle.addEventListener('keydown', (event) => {
 
 function handleContinueAction() {
     if (emailIDEle.checkValidity()) {
-        if (emailIDEle.value === email) {
-            console.log('Email is correct');
-            errorContainerEle.setAttribute('id', 'hidden');
-            emailIDEle.style.border = '1px solid black';
-            emailIDEle.disabled = true;
-            editButtonEle.style.display = '';
-            passwordContainerEle.removeAttribute('id', 'hidden-password');
-            continueButtonEle.style.display = 'none';
+        if (emailIDEle.value !== email) {
+            authTitleEle.textContent = 'Create your free account';
+            createAccountButtonEle.textContent = 'Create account';
         }
+        else {
+            authTitleEle.textContent = 'Login to your account';
+            createAccountButtonEle.textContent = 'Login';
+        }
+        console.log('Email is correct');
+        errorContainerEle.setAttribute('id', 'hidden');
+        emailIDEle.style.border = '1px solid black';
+        emailIDEle.disabled = true;
+        editButtonEle.style.display = '';
+        passwordContainerEle.removeAttribute('id', 'hidden-password');
+        createAccountButtonEle.removeAttribute('id', 'hidden-create-account');
+        continueButtonEle.style.display = 'none';
+
     } else {
         emailIDEle.style.border = '1px solid red';
         errorContainerEle.removeAttribute('id');
@@ -40,8 +50,10 @@ function handleContinueAction() {
 
 
 editButtonEle.addEventListener('click', () => {
+    authTitleEle.textContent = 'Login or create an account';
     emailIDEle.disabled = false;
     passwordContainerEle.setAttribute('id', 'hidden-password');
+    createAccountButtonEle.setAttribute('id', 'hidden-create-account');
     continueButtonEle.style.display = '';
     editButtonEle.style.display = 'none';
     emailIDEle.value = '';
