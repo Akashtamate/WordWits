@@ -18,11 +18,26 @@
             <div class="auth-form-container">
                 <label for="email" class="auth-label">Email Address</label>
                 <div class="input-container">
-                    <input type="email" name="email"  id="email" autocomplete="email" class="auth-input" required />
-                    <button type="submit" class="continue-button">Continue</button>
+                    <div class="email-container">
+                        <input type="email" name="email"  id="email" autocomplete="email" class="auth-input js-email-input" required />
+                        <button type="button" class="show-edit-button js-edit-button">Edit</button>
+                    </div>
+                    <div class="error-message js-error-container" id="hidden">
+                        <img src="../icons/exclamation-warning-round-red-icon.svg" alt="Error Icon" class="error-icon" type="image/svg+xml" />
+                        <span class="error-text">Please enter a valid email address.</span>
+                    </div>
+                    <button type="submit" class="continue-button js-continue-button">Continue</button>
+                    <div class="password-container-validation js-password-container-validation" id="hidden-password">
+                        <label for="password" class="auth-label">Password</label>
+                        <div class="password-container">
+                            <input type="password" name="password" id="password" autocomplete="off" autocapitalize="off" class="auth-input js-password-input" required />
+                            <button type="button" class="show-edit-button js-show-button">Show</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="../auth/auth.js"></script>
 </body>
 </html>

@@ -147,7 +147,6 @@ body {
     justify-content: center;
     max-width: 500px;
     margin: 0 auto;
-    /*border: 1px solid #000;*/
 }
 
 .auth-title {
@@ -166,9 +165,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    /*border: 1px solid red;*/
     margin-bottom: 2rem;
     width: 370px;
+}
+
+.password-container-validation {
+    margin-top: 1rem;
 }
 
 .auth-label {
@@ -177,19 +179,17 @@ body {
     font-size: 14px;
     font-weight: bold;
     line-height: 21px;
-    margin-bottom: 0.3rem;
 }
 
 .input-container {
     width: 100%;
-    /*border: 1px solid green;*/
     height: 100%;
 }
 
 .auth-input {
     width: 100%;
     height: 2.75rem;
-    padding: 0px 0.75rem;
+    padding: 0 3.5rem 0 0.75rem;
     border-style: solid;
     border-color: #000;
     border-radius: 3px;
@@ -204,10 +204,15 @@ body {
     opacity: 1;
     box-shadow: none;
     transition: box-shadow 200ms linear;
-    margin-bottom: 1rem;
+}
+
+.auth-input:disabled {
+    background-color: rgb(255, 255, 255);
+    color: rgb(118, 118, 118);
 }
 
 .continue-button {
+    margin-top: 1rem;;
     width: 100%;
     height: 2.75rem;
     line-height: 2.375em;
@@ -226,6 +231,54 @@ body {
     transition: 0.15s ease-in;
 }
 
+#hidden, #hidden-password {
+    display: none;
+}
+
+.error-message {
+    display: flex;
+    align-items: center;
+    gap:0.2rem;
+}
+
+.error-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.error-text {
+    color: red;
+    font-family: var(--nyt-franklin-600);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+}
+
+.password-container, .email-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%; 
+    margin-top: 0.3rem;
+}
+
+.show-edit-button {
+    position: absolute;
+    right: 0.5rem; 
+    height: 2.75rem; 
+    font-size: 0.9rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    color: #000;
+    text-align: center;
+    font-family: var(--nyt-franklin-600);
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 600;
+    outline: none;
+}
 
 @media (min-width: 760px) {
     .title {
