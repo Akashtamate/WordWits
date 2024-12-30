@@ -8,6 +8,7 @@ const editButtonEle = document.querySelector('.js-edit-button');
 const showButtonEle = document.querySelector('.js-show-button');
 editButtonEle.style.display = 'none';
 const passwordInputEle = document.querySelector('.js-password-input');
+const forgotPasswordEle = document.querySelector('.js-forgot-password-link');
 const email = 'abc@gmail.com'; //For testing 
 
 
@@ -32,6 +33,7 @@ function handleContinueAction() {
         else {
             authTitleEle.textContent = 'Login to your account';
             createAccountButtonEle.textContent = 'Login';
+            forgotPasswordEle.removeAttribute('id', 'hidden-forgot-password');
         }
         console.log('Email is correct');
         errorContainerEle.setAttribute('id', 'hidden');
@@ -54,6 +56,7 @@ editButtonEle.addEventListener('click', () => {
     emailIDEle.disabled = false;
     passwordContainerEle.setAttribute('id', 'hidden-password');
     createAccountButtonEle.setAttribute('id', 'hidden-create-account');
+    forgotPasswordEle.setAttribute('id', 'hidden-forgot-password');
     continueButtonEle.style.display = '';
     editButtonEle.style.display = 'none';
     emailIDEle.value = '';

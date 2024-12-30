@@ -171,8 +171,10 @@ body {
 
 .password-container-validation {
     margin-top: 1rem;
-    margin-bottom: 1.5rem;
+    
 }
+
+
 
 .auth-label {
     color: rgb(0, 0, 0);
@@ -213,7 +215,7 @@ body {
 }
 
 .continue-button, .create-account-button {
-    margin-top: 1rem;;
+    margin-top: 1.8rem;
     width: 100%;
     height: 2.75rem;
     line-height: 2.375em;
@@ -232,7 +234,8 @@ body {
     transition: 0.15s ease-in;
 }
 
-#hidden, #hidden-password, #hidden-create-account {
+#hidden, #hidden-password, #hidden-create-account,
+#hidden-forgot-password {
     display: none;
 }
 
@@ -279,6 +282,18 @@ body {
     line-height: 1.5;
     font-weight: 600;
     outline: none;
+}
+
+.forgot-password-link {
+    padding:0px;
+    font-size: 0.875rem;
+    line-height: 1.3125rem;
+    white-space: nowrap;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+    text-decoration: underline;
+    font-family: var(--nyt-franklin-600), helvetica, arial, sans-serif;
 }
 
 @media (min-width: 760px) {
