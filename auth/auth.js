@@ -9,6 +9,7 @@ const showButtonEle = document.querySelector('.js-show-button');
 editButtonEle.style.display = 'none';
 const passwordInputEle = document.querySelector('.js-password-input');
 const forgotPasswordEle = document.querySelector('.js-forgot-password-link');
+const autFormContianer = document.querySelector('.js-auth-form-container');
 const email = 'abc@gmail.com'; //For testing 
 
 
@@ -72,3 +73,45 @@ showButtonEle.addEventListener('click', () => {
         showButtonEle.textContent = 'Show';
     }
 });
+
+forgotPasswordEle.addEventListener('click', () => {
+    autFormContianer.style.display = 'none';
+    authTitleEle.textContent = 'Verify your email address';
+    createDivToVerifyEmail();
+});
+
+function createDivToVerifyEmail() {
+    const verifyEmailContainer = document.createElement('div');
+    verifyEmailContainer.classList.add('verify-email-container', 'js-verify-email-container');
+
+    const mailSpanEle = document.createElement('span');
+    mailSpanEle.classList.add('mail-span', 'js-mail-span');
+    mailSpanEle.textContent = emailIDEle.value;
+
+    const headerTwoContentEle = document.createElement('h2');
+    headerTwoContentEle.classList.add('header-two-content', 'js-header-two-content');
+    headerTwoContentEle.appendChild(document.createTextNode('Enter the code we sent to '));
+    headerTwoContentEle.appendChild(mailSpanEle);
+    headerTwoContentEle.appendChild(document.createTextNode(' to update your password. This code expires in 10 minutes.'));
+    verifyEmailContainer.appendChild(headerTwoContentEle);
+
+    const verficationCodeLabel = document.createElement('label');
+    verficationCodeLabel.textContent = 'Verification code';
+    verficationCodeLabel.setAttribute('for', 'verification-code');
+    verficationCodeLabel.classList.add('verification-code-label', 'js-verification-code-label');
+    verifyEmailContainer.appendChild(verficationCodeLabel);
+
+    const verificationCodeInput = document.createElement('input');
+    verificationCodeInput.setAttribute('type', 'text');
+    verificationCodeInput.setAttribute('id', 'verification-code');
+    verificationCodeInput.classList.add('verification-code-input', 'js-verification-code-input');
+    verifyEmailContainer.appendChild(verificationCodeInput);
+
+    const submitButton = document.createElement('button');
+    submitButton.textContent = 'Submit';
+    submitButton.classList.add('submit-button', 'js-submit-button');
+    verifyEmailContainer.appendChild(submitButton);
+
+    authTitleEle.parentNode.insertBefore(verifyEmailContainer, authTitleEle.nextSibling);
+
+}

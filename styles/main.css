@@ -176,10 +176,10 @@ body {
 
 
 
-.auth-label {
+.auth-label, .verification-code-label {
     color: rgb(0, 0, 0);
     font-family: var(--nyt-franklin-600);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: bold;
     line-height: 21px;
 }
@@ -189,7 +189,7 @@ body {
     height: 100%;
 }
 
-.auth-input {
+.auth-input, .verification-code-input  {
     width: 100%;
     height: 2.75rem;
     padding: 0 3.5rem 0 0.75rem;
@@ -214,7 +214,7 @@ body {
     color: rgb(118, 118, 118);
 }
 
-.continue-button, .create-account-button {
+.continue-button, .create-account-button, .submit-button {
     margin-top: 1.8rem;
     width: 100%;
     height: 2.75rem;
@@ -296,6 +296,34 @@ body {
     font-family: var(--nyt-franklin-600), helvetica, arial, sans-serif;
 }
 
+.verify-email-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 31.25rem;
+}
+
+.header-two-content {
+    font-size: 1.2rem;
+    font-family: var(--nyt-franklin-600);
+    line-height: 1.2;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.mail-span {
+    font-family: var(--nyt-cheltenham);
+    text-align: center;
+}
+
+.verification-code-label {
+    margin-bottom: 0.5rem;
+}
+
+.verification-code-input {
+    text-align: center;
+}
+
 @media (min-width: 760px) {
     .title {
         font-size: 2.75rem; /* 44px */
@@ -360,6 +388,10 @@ body {
     .auth-label {
         font-size: 18px;
     }
+
+    .verification-code-label {
+        margin-bottom: 0.5rem;
+    }
 }
 
 @media(min-width: 992px) {
@@ -373,4 +405,43 @@ body {
     .auth-label {
         font-size: 19px;
     }
+
+    .verification-code-label {
+        margin-bottom: 0.5rem;
+    }
 }
+
+
+
+@media (max-width: 400px) and (min-width: 340px) {
+    .verify-email-container {
+      max-width: 17.5rem;
+    }
+
+    .header-two-content {
+        font-size: 1rem;
+    }
+
+    .verification-code-label {
+        font-size: 0.825rem;
+        margin-bottom: 0.48rem;
+    }
+  }
+  
+  
+  @media (max-width: 430px) and (min-width: 412px) {
+    .verify-email-container {
+      max-width: 22.5rem;
+
+    }
+
+    .header-two-content {
+        font-size: 1.1rem;
+    }
+
+    .verification-code-label {
+        font-size:  0.84375rem;
+        margin-bottom: 0.48rem;
+    }
+  }
+  
