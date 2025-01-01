@@ -241,13 +241,14 @@ body {
 
 .error-message {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /*To ensure that the icon stays aligned with the first line of the text, even if the text wraps to the next line*/
     gap:0.2rem;
 }
 
 .error-icon {
     width: 1rem;
     height: 1rem;
+    margin-top: 0.22rem;
 }
 
 .error-text {
@@ -302,7 +303,7 @@ body {
     max-width: 31.25rem;
 }
 
-.header-two-content {
+.header-two-content, .resend-code-link-header {
     font-size: 1.2rem;
     font-family: var(--nyt-franklin-600);
     line-height: 1.2;
@@ -311,9 +312,14 @@ body {
     margin-bottom: 2rem;
 }
 
-.mail-span {
+.mail-span, .resend-code-link {
     font-family: var(--nyt-cheltenham);
     text-align: center;
+}
+
+.resend-code-link {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .verification-code-label {
@@ -418,7 +424,7 @@ body {
       max-width: 17.5rem;
     }
 
-    .header-two-content {
+    .header-two-content, .resend-code-link-header {
         font-size: 1rem;
     }
 
@@ -429,13 +435,13 @@ body {
   }
   
   
-  @media (max-width: 430px) and (min-width: 412px) {
+  @media (max-width: 435px) and (min-width: 412px) {
     .verify-email-container {
       max-width: 22.5rem;
 
     }
 
-    .header-two-content {
+    .header-two-content, .resend-code-link-header {
         font-size: 1.1rem;
     }
 

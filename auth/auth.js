@@ -11,7 +11,8 @@ const passwordInputEle = document.querySelector('.js-password-input');
 const forgotPasswordEle = document.querySelector('.js-forgot-password-link');
 const autFormContianer = document.querySelector('.js-auth-form-container');
 const email = 'abc@gmail.com'; //For testing 
-
+const code = '1234'; //For testing
+const password = 'abc'; //For testing
 
 continueButtonEle.addEventListener('click', () => {
     handleContinueAction();
@@ -24,7 +25,7 @@ emailIDEle.addEventListener('keydown', (event) => {
     }
 });
 
-
+// Function to handle continue action
 function handleContinueAction() {
     if (emailIDEle.checkValidity()) {
         if (emailIDEle.value !== email) {
@@ -80,6 +81,7 @@ forgotPasswordEle.addEventListener('click', () => {
     createDivToVerifyEmail();
 });
 
+// Function to create div to verify email
 function createDivToVerifyEmail() {
     const verifyEmailContainer = document.createElement('div');
     verifyEmailContainer.classList.add('verify-email-container', 'js-verify-email-container');
@@ -112,6 +114,165 @@ function createDivToVerifyEmail() {
     submitButton.classList.add('submit-button', 'js-submit-button');
     verifyEmailContainer.appendChild(submitButton);
 
+    const resendCodeLink = document.createElement('a');
+    resendCodeLink.textContent = 'Request a new one.';
+    resendCodeLink.classList.add('resend-code-link', 'js-resend-code-link');
+
+    const resendCodeHeader = document.createElement('h3');
+    resendCodeHeader.classList.add('resend-code-link-header', 'js-resend-code-link-header');
+    resendCodeHeader.appendChild(document.createTextNode("Didn't receive the code? Check your spam folder or "));
+    resendCodeHeader.appendChild(resendCodeLink);
+    verifyEmailContainer.appendChild(resendCodeHeader);
+
     authTitleEle.parentNode.insertBefore(verifyEmailContainer, authTitleEle.nextSibling);
+
+   
+    submitButton.addEventListener('click', () => {
+        handleSubmitClick(verifyEmailContainer);
+    });
+
+    verificationCodeInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            handleSubmitClick(verifyEmailContainer);
+        }
+    });
+}
+
+let wrongCodeMessageContainer;
+function handleSubmitClick(verifyEmailContainer) {
+    
+    const verificationCodeInput = verifyEmailContainer.querySelector('.js-verification-code-input');
+    const verificationCodeValue = verificationCodeInput.value;
+    const headerTwoContentEle = verifyEmailContainer.querySelector('.js-header-two-content');
+    const mailSpanEle = verifyEmailContainer.querySelector('.js-mail-span');
+
+    if(document.body.contains(wrongCodeMessageContainer)) {
+        wrongCodeMessageContainer.remove();
+    }
+
+    if (verificationCodeValue === code) {
+        verificationCodeInput.style.border = '';
+        console.log('Code is correct');
+
+        authTitleEle.textContent = 'Set a new password';
+
+        headerTwoContentEle.replaceChildren();
+        headerTwoContentEle.appendChild(document.createTextNode('Your emial '));
+        headerTwoContentEle.appendChild(mailSpanEle);
+        headerTwoContentEle.appendChild(document.createTextNode(' has been verified. Please set a new password.'));
+
+        Array.from(verifyEmailContainer.children).forEach((child) => {
+            if (child !== headerTwoContentEle) {
+                verifyEmailContainer.removeChild(child);
+            }
+        });
+
+        const newPasswordLabel = document.createElement('label');
+        newPasswordLabel.textContent = 'Password';
+        newPasswordLabel.setAttribute('for', 'new-password');
+        newPasswordLabel.classList.add('auth-label', 'js-new-password-label');
+        verifyEmailContainer.appendChild(newPasswordLabel);
+
+        const newPasswordContiner = document.createElement('div');
+        newPasswordContiner.classList.add('password-container', 'js-new-password-container');
+
+        const newPasswordInput = document.createElement('input');
+        newPasswordInput.setAttribute('type', 'password');
+        newPasswordInput.required = true;
+        newPasswordInput.setAttribute('id', 'new-password');
+        newPasswordInput.classList.add('auth-input', 'js-new-password-input');
+        newPasswordContiner.appendChild(newPasswordInput);
+
+        const showButtonEle = document.createElement('button');
+        showButtonEle.textContent = 'Show';
+        showButtonEle.classList.add('show-edit-button', 'js-show-edit-button');
+        newPasswordContiner.appendChild(showButtonEle);
+
+        verifyEmailContainer.appendChild(newPasswordContiner);
+
+        const setPasswordButton = document.createElement('button');
+        setPasswordButton.textContent = 'Set Password';
+        setPasswordButton.classList.add('create-account-button', 'js-submit-button');
+        verifyEmailContainer.appendChild(setPasswordButton);
+
+        showButtonEle.addEventListener('click', () => {
+            if(newPasswordInput.type === 'password') {
+                newPasswordInput.type = 'text';
+                showButtonEle.textContent = 'Hide';
+            }
+            else {
+                newPasswordInput.type = 'password';
+                showButtonEle.textContent = 'Show';
+            }
+        });
+
+        setPasswordButton.addEventListener('click', () => {
+            handleSetPassword(verifyEmailContainer);
+        });
+
+    }
+    else {
+        const errMsg = 'The code you entered is incorrect. Please try again.';
+        console.log('Code is incorrect');
+        verificationCodeInput.style.border = '1px solid red';
+        wrongCodeMessageContainer = wrongCodeMessage(verificationCodeInput, errMsg);
+    }
+}
+
+// Function to display wrong code message
+function wrongCodeMessage(verificationCodeInput, errMsg) {
+    const wrongCodeMessageContainer = document.createElement('div');
+    wrongCodeMessageContainer.classList.add('error-message', 'js-wrong-code-message-container');
+
+    const wrongCodeImg = document.createElement('img');
+    wrongCodeImg.setAttribute('src', '../icons/exclamation-warning-round-red-icon.svg');
+    wrongCodeImg.setAttribute('alt', 'Error icon');
+    wrongCodeImg.setAttribute('type', 'image/svg+xml');
+    wrongCodeImg.classList.add('error-icon', 'js-error-icon');
+    wrongCodeMessageContainer.appendChild(wrongCodeImg);
+
+    const wrongCodeMessage = document.createElement('span');
+    wrongCodeText = document.createTextNode(errMsg);
+    wrongCodeMessage.classList.add('error-text', 'js-error-text');
+    wrongCodeMessage.appendChild(wrongCodeText);
+    wrongCodeMessageContainer.appendChild(wrongCodeMessage);
+    
+    verificationCodeInput.parentNode.insertBefore(wrongCodeMessageContainer, verificationCodeInput.nextSibling);
+
+    return wrongCodeMessageContainer;
+}
+
+function handleSetPassword(verifyEmailContainer) {
+    const newPasswordContiner = verifyEmailContainer.querySelector('.js-new-password-container');
+    const newPasswordInput = verifyEmailContainer.querySelector('.js-new-password-input');
+    const headerTwoContentEle = verifyEmailContainer.querySelector('.js-header-two-content');
+    
+    if(document.body.contains(wrongCodeMessageContainer)) {
+        wrongCodeMessageContainer.remove();
+    }
+
+    if(newPasswordInput.checkValidity()) {
+        newPasswordInput.style.border = '';
+        authTitleEle.textContent = 'You are all set!';
+
+        headerTwoContentEle.replaceChildren();
+        headerTwoContentEle.appendChild(document.createTextNode('Your password has been updated successfully. Please login with your new password.'));
+
+        Array.from(verifyEmailContainer.children).forEach((child) => {
+            if (child !== headerTwoContentEle) {
+                verifyEmailContainer.removeChild(child);
+            }
+        });
+
+        const loginButton = document.createElement('button');
+        loginButton.textContent = 'Login';
+        loginButton.classList.add('create-account-button', 'js-login-button');
+        verifyEmailContainer.appendChild(loginButton);
+    }
+
+    else {
+        newPasswordInput.style.border = '1px solid red';
+        wrongCodeMessageContainer = wrongCodeMessage(newPasswordContiner, 'Password cannot be empty');
+    }
 
 }
