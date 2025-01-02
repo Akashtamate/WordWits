@@ -3,6 +3,7 @@ const emailIDEle = document.querySelector('.js-email-input');
 const continueButtonEle = document.querySelector('.js-continue-button');
 const createAccountButtonEle = document.querySelector('.js-create-account-button');
 const errorContainerEle = document.querySelector('.js-error-container');
+const errorTextEle = document.querySelector('.js-error-text');
 const passwordContainerEle = document.querySelector('.js-password-container-validation');
 const editButtonEle = document.querySelector('.js-edit-button');
 const showButtonEle = document.querySelector('.js-show-button');
@@ -80,6 +81,51 @@ forgotPasswordEle.addEventListener('click', () => {
     authTitleEle.textContent = 'Verify your email address';
     createDivToVerifyEmail();
 });
+
+createAccountButtonEle.addEventListener('click', () => {
+    if (createAccountButtonEle.textContent === 'Create account') {
+        handleCreateAccount();
+        console.log('Create account button clicked');
+    }
+    else {
+        handleLogin();
+    }
+});
+
+function handleCreateAccount() {
+    if (passwordInputEle.checkValidity()) {
+        passwordInputEle.style.border = '';
+        errorContainerEle.setAttribute('id');
+        
+        if (passwordContainerEle.nextSibling === errorContainerEle) {
+            errorContainerEle.parentNode.removeChild(errorContainerEle);
+        }
+
+        authTitleEle.textContent = 'You are all set!';
+        autFormContianer.replaceChildren();
+
+        const successMessage = document.createElement('h2');
+        successMessage.classList.add('success-message', 'js-success-message');
+        successMessage.appendChild(document.createTextNode('Your account has been created successfully. Please login to continue.'));
+        autFormContianer.appendChild(successMessage);
+
+        const loginButton = document.createElement('button');
+        loginButton.textContent = 'Login';
+        loginButton.classList.add('create-account-button', 'js-login-button');
+        autFormContianer.appendChild(loginButton);
+    }
+    else if(passwordInputEle.value === '') {
+        passwordInputEle.style.border = '1px solid red';
+        errorTextEle.textContent = 'Password cannot be empty'; 
+        passwordContainerEle.parentNode.insertBefore(errorContainerEle, passwordContainerEle.nextSibling);
+        errorContainerEle.removeAttribute('id');
+    }
+}
+
+//Write code to handle login
+function handleLogin() {
+    
+}
 
 // Function to create div to verify email
 function createDivToVerifyEmail() {

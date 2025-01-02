@@ -303,7 +303,7 @@ body {
     max-width: 31.25rem;
 }
 
-.header-two-content, .resend-code-link-header {
+.header-two-content, .resend-code-link-header, .success-message {
     font-size: 1.2rem;
     font-family: var(--nyt-franklin-600);
     line-height: 1.2;
