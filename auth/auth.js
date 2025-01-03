@@ -95,7 +95,7 @@ createAccountButtonEle.addEventListener('click', () => {
 function handleCreateAccount() {
     if (passwordInputEle.checkValidity()) {
         passwordInputEle.style.border = '';
-        errorContainerEle.setAttribute('id');
+        errorContainerEle.setAttribute('id', 'hidden');
         
         if (passwordContainerEle.nextSibling === errorContainerEle) {
             errorContainerEle.parentNode.removeChild(errorContainerEle);
@@ -124,7 +124,30 @@ function handleCreateAccount() {
 
 //Write code to handle login
 function handleLogin() {
-    
+    if(passwordInputEle.value === '') {
+        passwordInputEle.style.border = '1px solid red';
+        errorTextEle.textContent = 'Password cannot be empty';
+        passwordContainerEle.parentNode.insertBefore(errorContainerEle, passwordContainerEle.nextSibling);
+        errorContainerEle.removeAttribute('id');
+    }
+    else if(passwordInputEle.value !== password) {
+        passwordInputEle.style.border = '1px solid red';
+        errorTextEle.textContent = 'Password is incorrect';
+        passwordContainerEle.parentNode.insertBefore(errorContainerEle, passwordContainerEle.nextSibling);
+        errorContainerEle.removeAttribute('id');
+    }
+    else if(passwordInputEle.value === password && passwordInputEle.checkValidity()) {
+        passwordInputEle.style.border = '';
+        errorContainerEle.setAttribute('id', 'hidden');
+        
+        if (passwordContainerEle.nextSibling === errorContainerEle) {
+            errorContainerEle.parentNode.removeChild(errorContainerEle);
+        }
+
+        //load game.html
+        console.log('Login successful');
+        window.location.href = '../html/main.html';
+    }
 }
 
 // Function to create div to verify email
@@ -322,3 +345,6 @@ function handleSetPassword(verifyEmailContainer) {
     }
 
 }
+
+
+
