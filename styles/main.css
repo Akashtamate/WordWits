@@ -328,6 +328,7 @@ body {
 
 .verification-code-input {
     text-align: center;
+    padding-right: 0.75rem;
 }
 
 @media (min-width: 760px) {

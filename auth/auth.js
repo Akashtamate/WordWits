@@ -113,6 +113,10 @@ function handleCreateAccount() {
         loginButton.textContent = 'Login';
         loginButton.classList.add('create-account-button', 'js-login-button');
         autFormContianer.appendChild(loginButton);
+
+        loginButton.addEventListener('click', () => {
+            location.reload();
+        });
     }
     else if(passwordInputEle.value === '') {
         passwordInputEle.style.border = '1px solid red';
@@ -337,6 +341,10 @@ function handleSetPassword(verifyEmailContainer) {
         loginButton.textContent = 'Login';
         loginButton.classList.add('create-account-button', 'js-login-button');
         verifyEmailContainer.appendChild(loginButton);
+
+        loginButton.addEventListener('click', () => {
+            location.reload();
+        });
     }
 
     else {
