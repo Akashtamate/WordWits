@@ -54,25 +54,6 @@ body {
     background-color: black;
 }
 
-@media (min-width: 1024px) {
-    .top-header {
-        padding: 0px 1.5rem;
-        height: 3.5rem;
-        justify-content: flex-end;
-    }
-
-    
-    .logout-button {
-        font: 16px / 21px "nyt-franklin-600";
-        height: 44px;
-        width: 172px;
-        margin-left: 12px;
-        padding: 0 16px;
-        min-height: 35px;
-    }
-    
-}
-
 .board-container {
     border: 1px solid balck;
     display: flex;
@@ -89,17 +70,13 @@ body {
     display: grid;
     box-sizing: border-box;
     grid-template-rows: repeat(6, 1fr);
-    background-color: green;
+    grid-gap: 0.3125rem;
 }
 
-.board-column {
-    width: 300px;
-    height: 360px;
+.Row-tile {
     display: grid;
-    grid-template-rows: repeat(6, 1fr);
-    grid-gap: 5px;
-    padding: 10px;
-    box-sizing: border-box;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 0.3125rem;   
 }
 
 .tile {
@@ -115,17 +92,10 @@ body {
     box-sizing: border-box;
     color: #f8f8f8;
     text-transform: uppercase;
-    -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
     border: 2px solid #3a3a3c;  
 }
 
-.Row-tile {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 5px;
-}
 
 @media (min-width: 768px) {
     .top-header {
@@ -144,4 +114,23 @@ body {
     .logout-button {
         width: 147px;
     }
+}
+
+@media (min-width: 1024px) {
+    .top-header {
+        padding: 0px 1.5rem;
+        height: 3.5rem;
+        justify-content: flex-end;
+    }
+
+    
+    .logout-button {
+        font: 16px / 21px "nyt-franklin-600";
+        height: 44px;
+        width: 172px;
+        margin-left: 12px;
+        padding: 0 16px;
+        min-height: 35px;
+    }
+    
 }
