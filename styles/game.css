@@ -73,6 +73,25 @@ body {
     
 }
 
+.board-container {
+    border: 1px solid balck;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.board {
+    width: 18.75rem;
+    height: 22.5rem;
+    padding: 0.625rem;
+    display: grid;
+    box-sizing: border-box;
+    grid-template-rows: repeat(6, 1fr);
+    background-color: green;
+}
+
 .board-column {
     width: 300px;
     height: 360px;
