@@ -1,15 +1,16 @@
 const boardEle = document.querySelector('.js-board');
+const rows = 6;  
+const cols = 5;  
 
-for(i = 0; i < 6; i ++) {
-    let RowEle = document.createElement('div');
-    RowEle.classList.add('Row-tile');
-    boardEle.appendChild(RowEle);
+
+for (let i = 0; i < rows; i++) {
+    const rowEle = document.createElement('div');
+    rowEle.classList.add('row-tile'); 
+    boardEle.appendChild(rowEle);
+
+    for (let j = 0; j < cols; j++) {
+        const tileEle = document.createElement('div');
+        tileEle.classList.add('tile');
+        rowEle.appendChild(tileEle);
+    }
 }
-
-Array.from(boardEle.children).forEach((child) => {
-    for(i = onabort; i< 5; i++) {
-        let eachRowTileEle = document.createElement('div');
-        eachRowTileEle.classList.add('tile');
-        child.appendChild(eachRowTileEle);
-    }  
-});

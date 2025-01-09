@@ -73,7 +73,7 @@ body {
     grid-gap: 0.3125rem;
 }
 
-.Row-tile {
+.row-tile {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 0.3125rem;   
