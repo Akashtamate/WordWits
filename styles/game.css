@@ -96,6 +96,22 @@ body {
     border: 2px solid #3a3a3c;  
 }
 
+.keyboard-container {
+    height: 200px;
+    margin: 0 8px;
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyboard {
+    height: 198px;
+    width: 484px;
+    border: 1px solid blue;
+    display: flex;
+    justify-content: center;
+}
 
 @media (min-width: 768px) {
     .top-header {
