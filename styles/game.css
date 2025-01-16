@@ -111,6 +111,35 @@ body {
     border: 1px solid blue;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+}
+
+.keyboard-row {
+    display: flex;
+    width: 100%;
+    margin: 0 auto 8px;
+    touch-action: manipulation;
+}
+
+.button-keys {
+    font-family: "nyt-franklin-600";
+    font-size: 1.25em;
+    font-weight: bold;
+    border: 0;
+    padding: 0;
+    margin: 0 6px 0 0;
+    height: 58px;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    background-color: #818384;
+    color: #f8f8f8;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    line-height: 1.15;
 }
 
 @media (min-width: 768px) {

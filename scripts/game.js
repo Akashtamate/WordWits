@@ -14,3 +14,19 @@ for (let i = 0; i < rows; i++) {
         rowEle.appendChild(tileEle);
     }
 }
+
+const rowOneKeys = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
+const rowTwoKeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
+const keyboardRowOneEle = document.getElementById('row-one');
+createKeys(rowOneKeys, 'row-one');
+createKeys(rowTwoKeys, 'row-two');
+
+function createKeys(keyRowsArr, id) {
+    const keyboardRowEle = document.getElementById(id);
+    keyRowsArr.forEach((key) => {
+        const keyEle = document.createElement('button');
+        keyEle.textContent = key;   
+        keyEle.classList.add('button-keys');
+        keyboardRowEle.appendChild(keyEle);
+    });
+}
