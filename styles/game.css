@@ -142,6 +142,10 @@ body {
     line-height: 1.15;
 }
 
+.spacer {
+    flex: 0.5;
+}
+
 @media (min-width: 768px) {
     .top-header {
         padding: 0px 1rem;

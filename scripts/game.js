@@ -17,6 +17,7 @@ for (let i = 0; i < rows; i++) {
 
 const rowOneKeys = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
 const rowTwoKeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
+const rowTHreeKeys = ['Enter', 'Z', 'X', 'C', 'V', 'B','N', 'M'];
 const keyboardRowOneEle = document.getElementById('row-one');
 createKeys(rowOneKeys, 'row-one');
 createKeys(rowTwoKeys, 'row-two');
@@ -30,3 +31,8 @@ function createKeys(keyRowsArr, id) {
         keyboardRowEle.appendChild(keyEle);
     });
 }
+
+const keyboardRowEle = document.getElementById('row-two');
+const firstAndLastChildDiv = document.createElement('div');
+firstAndLastChildDiv.classList.add("spacer");
+
