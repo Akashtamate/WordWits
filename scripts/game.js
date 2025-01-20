@@ -17,10 +17,10 @@ for (let i = 0; i < rows; i++) {
 
 const rowOneKeys = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
 const rowTwoKeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
-const rowTHreeKeys = ['Enter', 'Z', 'X', 'C', 'V', 'B','N', 'M'];
-const keyboardRowOneEle = document.getElementById('row-one');
+const rowThreeKeys = ['Z', 'X', 'C', 'V', 'B','N', 'M'];
 createKeys(rowOneKeys, 'row-one');
 createKeys(rowTwoKeys, 'row-two');
+createKeys(rowThreeKeys, 'row-three');
 
 function createKeys(keyRowsArr, id) {
     const keyboardRowEle = document.getElementById(id);
@@ -32,7 +32,40 @@ function createKeys(keyRowsArr, id) {
     });
 }
 
-const keyboardRowEle = document.getElementById('row-two');
-const firstAndLastChildDiv = document.createElement('div');
-firstAndLastChildDiv.classList.add("spacer");
+//Adding margin to first and last key of row two
+const keyboardRowTwoEle = document.getElementById('row-two');
+const firstChildDiv = document.createElement('div');
+firstChildDiv.classList.add("spacer");
+const lastChildDiv = document.createElement('div');
+lastChildDiv.classList.add("spacer");
+keyboardRowTwoEle.prepend(firstChildDiv);
+keyboardRowTwoEle.appendChild(lastChildDiv);
+
+const keyBoardRowThreeEle = document.getElementById('row-three');
+
+//Prepending enter button to row three
+const enterButton = document.createElement('button');
+enterButton.classList.add('enter-clear', 'button-keys');
+enterButton.textContent = 'enter';
+keyBoardRowThreeEle.prepend(enterButton);
+
+//Appending a clear button with svg to row three
+const clearButtonEle = document.createElement('button');
+clearButtonEle.classList.add('enter-clear', 'button-keys');
+const svgEle = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svgEle.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+svgEle.setAttribute("height", "20");
+svgEle.setAttribute("viewBox", "0 0 24 24");
+svgEle.setAttribute("width", "20");
+svgEle.classList.add("game-icon");
+
+const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+path.setAttribute("fill", "white");
+path.setAttribute(
+  "d",
+  "M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
+);
+svgEle.appendChild(path);
+clearButtonEle.appendChild(svgEle);
+keyBoardRowThreeEle.appendChild(clearButtonEle);
 
