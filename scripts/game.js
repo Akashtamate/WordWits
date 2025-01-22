@@ -6,11 +6,13 @@ const cols = 5;
 for (let i = 0; i < rows; i++) {
     const rowEle = document.createElement('div');
     rowEle.classList.add('row-tile'); 
+    rowEle.setAttribute('data-index', i);
     boardEle.appendChild(rowEle);
 
     for (let j = 0; j < cols; j++) {
         const tileEle = document.createElement('div');
         tileEle.classList.add('tile');
+        tileEle.setAttribute('data-index',j);
         rowEle.appendChild(tileEle);
     }
 }
@@ -27,7 +29,7 @@ function createKeys(keyRowsArr, id) {
     keyRowsArr.forEach((key) => {
         const keyEle = document.createElement('button');
         keyEle.textContent = key;   
-        keyEle.classList.add('button-keys');
+        keyEle.classList.add('button-keys', 'js-button-keys');
         keyboardRowEle.appendChild(keyEle);
     });
 }
@@ -69,3 +71,24 @@ svgEle.appendChild(path);
 clearButtonEle.appendChild(svgEle);
 keyBoardRowThreeEle.appendChild(clearButtonEle);
 
+//On click event for keys
+let rowTilesFixed = false;
+let currentRowTileIndex = 0;
+let currentTileIndex = 0;
+
+document.addEventListener('click', (event) => {
+    if (!rowTilesFixed) {
+        const target = event.target;
+        if (target.classList.contains('js-button-keys')) {
+            const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+            const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex}"]`);
+            tileEle.textContent = target.textContent;
+            
+            currentTileIndex++;
+            if (currentTileIndex === cols) {
+                rowTilesFixed = true;
+                
+            }
+        }
+    }
+});
