@@ -53,7 +53,7 @@ keyBoardRowThreeEle.prepend(enterButton);
 
 //Appending a clear button with svg to row three
 const clearButtonEle = document.createElement('button');
-clearButtonEle.classList.add('enter-clear', 'button-keys');
+clearButtonEle.classList.add('enter-clear', 'button-keys', 'js-clear-button');
 const svgEle = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 svgEle.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 svgEle.setAttribute("height", "20");
@@ -75,11 +75,13 @@ keyBoardRowThreeEle.appendChild(clearButtonEle);
 let rowTilesFixed = false;
 let currentRowTileIndex = 0;
 let currentTileIndex = 0;
+let enterClicked = false;
 
 document.addEventListener('click', (event) => {
-    if (!rowTilesFixed) {
-        const target = event.target;
+    const target = event.target;
+    if (!rowTilesFixed && currentRowTileIndex < rows) {
         if (target.classList.contains('js-button-keys')) {
+            console.log(currentRowTileIndex, currentTileIndex);
             const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
             const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex}"]`);
             tileEle.textContent = target.textContent;
@@ -87,8 +89,42 @@ document.addEventListener('click', (event) => {
             currentTileIndex++;
             if (currentTileIndex === cols) {
                 rowTilesFixed = true;
-                
+                currentRowTileIndex ++;
+                currentTileIndex = 0;
             }
         }
+    }
+    if(target.classList.contains('enter-clear')) {
+        if(target.textContent === 'enter')  {
+            if(!rowTilesFixed) {
+                console.log('Not enough letters');
+                //Implememt a modal to show error message
+            }
+            else{
+                rowTilesFixed = false;
+                console.log('enter clicked');
+                enterClicked = true;
+            }
+        }
+    }
+    if(target.classList.contains('js-clear-button') && currentTileIndex >= 0 ) {
+        console.log('clear clicked');
+        
+        if(currentTileIndex === 0 && currentRowTileIndex > 0) { 
+            console.log('entered here');
+            currentRowTileIndex--;
+            currentTileIndex = cols;
+            rowTilesFixed = false; 
+            //enterClicked = false;
+        }
+        const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+         
+        if(currentTileIndex > 0) {
+            const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex - 1}"]`); 
+            tileEle.textContent = '';
+            currentTileIndex--;
+            enterClicked = false;
+        }
+        console.log(currentTileIndex);
     }
 });
