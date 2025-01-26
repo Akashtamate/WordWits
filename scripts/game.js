@@ -71,60 +71,56 @@ svgEle.appendChild(path);
 clearButtonEle.appendChild(svgEle);
 keyBoardRowThreeEle.appendChild(clearButtonEle);
 
-//On click event for keys
-let rowTilesFixed = false;
-let currentRowTileIndex = 0;
-let currentTileIndex = 0;
-let enterClicked = false;
+// Handling the game logic
+let currentRowTileIndex = 0; 
+let currentTileIndex = 0; 
+let rowStates = Array(rows).fill(false); // Tracks whether a row is frozen
 
 document.addEventListener('click', (event) => {
     const target = event.target;
-    if (!rowTilesFixed && currentRowTileIndex < rows) {
+
+    // Handle adding letters
+    if (!rowStates[currentRowTileIndex] && currentRowTileIndex < rows) {
         if (target.classList.contains('js-button-keys')) {
-            console.log(currentRowTileIndex, currentTileIndex);
+            if (currentTileIndex >= cols) {
+                console.log('All 5 letters have been entered. Press "enter" to submit or "clear" to edit.');
+                return; // Prevent further action if the row is already filled
+            }
+
             const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
             const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex}"]`);
             tileEle.textContent = target.textContent;
-            
+
             currentTileIndex++;
             if (currentTileIndex === cols) {
-                rowTilesFixed = true;
-                currentRowTileIndex ++;
-                currentTileIndex = 0;
+                console.log('Row is filled, waiting for "enter" to freeze or "clear" to edit.');
             }
         }
     }
-    if(target.classList.contains('enter-clear')) {
-        if(target.textContent === 'enter')  {
-            if(!rowTilesFixed) {
-                console.log('Not enough letters');
-                //Implememt a modal to show error message
-            }
-            else{
-                rowTilesFixed = false;
-                console.log('enter clicked');
-                enterClicked = true;
+
+    // Handle 'enter' button
+    if (target.classList.contains('enter-clear')) {
+        if (target.textContent === 'enter') {
+            if (currentTileIndex < cols) {
+                console.log('Not enough letters to submit.');
+                // Implement a modal to show an error message
+            } else {
+                rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
+                currentRowTileIndex++; // Move to the next row
+                currentTileIndex = 0; // Reset tile index for the new row
+                console.log('Row submitted and frozen.');
             }
         }
     }
-    if(target.classList.contains('js-clear-button') && currentTileIndex >= 0 ) {
-        console.log('clear clicked');
-        
-        if(currentTileIndex === 0 && currentRowTileIndex > 0) { 
-            console.log('entered here');
-            currentRowTileIndex--;
-            currentTileIndex = cols;
-            rowTilesFixed = false; 
-            //enterClicked = false;
-        }
-        const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
-         
-        if(currentTileIndex > 0) {
-            const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex - 1}"]`); 
-            tileEle.textContent = '';
+
+    // Handle 'clear' button
+    if (target.classList.contains('js-clear-button')) {
+        if (!rowStates[currentRowTileIndex] && currentTileIndex > 0) {
+            const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+            const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex - 1}"]`);
+            tileEle.textContent = ''; // Clear the last tile
             currentTileIndex--;
-            enterClicked = false;
         }
-        console.log(currentTileIndex);
     }
+    console.log(`Row: ${currentRowTileIndex}, Tile: ${currentTileIndex}, Row States: ${rowStates}`);
 });
