@@ -65,6 +65,7 @@ body {
     align-items: center;
     flex-grow: 1;
     overflow: hidden;
+    position: relative;
 }
 
 .board {
@@ -75,6 +76,33 @@ body {
     box-sizing: border-box;
     grid-template-rows: repeat(6, 1fr);
     grid-gap: 0.3125rem;
+}
+
+.invalid-entry-container {
+    justify-content: center;
+    align-items: center;
+    top: 10px;
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    padding: 12px;
+    border-radius: 5px;
+    /*animation-duration: 10s;*/
+    display: none;
+    transition-delay: opacity 2s ease-out;
+}
+
+.invalid-entry-container.show {
+    display: flex;
+    opacity: 1;
+}
+
+.invalid-entry {
+    font-family: "nyt-franklin-600";
+    font-weight: bold;
+    font-size: 0.96rem;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    line-height: 1.5;
 }
 
 .row-tile {

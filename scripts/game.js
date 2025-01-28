@@ -76,6 +76,10 @@ let currentRowTileIndex = 0;
 let currentTileIndex = 0; 
 let rowStates = Array(rows).fill(false); // Tracks whether a row is frozen
 
+//Handling Invalid entry of letters
+const invalidEntryContainerEle = document.querySelector('.js-invalid-entry-container');
+const invalidEntryEle = invalidEntryContainerEle.querySelector('.js-inavalid-entry');
+
 document.addEventListener('click', (event) => {
     const target = event.target;
 
@@ -104,6 +108,11 @@ document.addEventListener('click', (event) => {
             if (currentTileIndex < cols) {
                 console.log('Not enough letters to submit.');
                 // Implement a modal to show an error message
+                invalidEntryEle.textContent = 'Not enough letters';
+                invalidEntryContainerEle.classList.add('show');
+                setTimeout(() => {
+                    invalidEntryContainerEle.classList.remove('show');
+                }, 1200);
             } else {
                 rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
                 currentRowTileIndex++; // Move to the next row
