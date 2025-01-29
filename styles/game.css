@@ -88,7 +88,8 @@ body {
     border-radius: 5px;
     /*animation-duration: 10s;*/
     display: none;
-    transition-delay: opacity 2s ease-out;
+    transition: opacity 2s ease-out;
+    opacity: 0;
 }
 
 .invalid-entry-container.show {

@@ -102,6 +102,7 @@ document.addEventListener('click', (event) => {
         }
     }
 
+    let fadeOutTimeout, hideTimeout;
     // Handle 'enter' button
     if (target.classList.contains('enter-clear')) {
         if (target.textContent === 'enter') {
@@ -109,10 +110,31 @@ document.addEventListener('click', (event) => {
                 console.log('Not enough letters to submit.');
                 // Implement a modal to show an error message
                 invalidEntryEle.textContent = 'Not enough letters';
-                invalidEntryContainerEle.classList.add('show');
+                
+                invalidEntryEle.textContent = 'Not enough letters';
+                invalidEntryContainerEle.style.display = 'flex'; // Make it visible
+                
+                //  Restart the fade-in process
+                invalidEntryContainerEle.style.opacity = '1';
+                
+                // Clear previous timeouts (if any)
+                clearTimeout(fadeOutTimeout);
+                clearTimeout(hideTimeout);
+
+                // Ensure that transition applies smoothly every time
                 setTimeout(() => {
-                    invalidEntryContainerEle.classList.remove('show');
-                }, 1200);
+                    invalidEntryContainerEle.style.transition = 'opacity 2s ease-out';
+                }, 0); // Small delay to reapply transition properly
+
+                // Set a new fade-out timeout
+                fadeOutTimeout = setTimeout(() => {
+                    invalidEntryContainerEle.style.opacity = '0'; // Start fading
+
+                    // After fade-out completes, hide it
+                    hideTimeout = setTimeout(() => {
+                    invalidEntryContainerEle.style.display = 'none';
+                    }, 2000); // Matches opacity transition duration
+                }, 1200); // Keep message visible for 1200ms before fading
             } else {
                 rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
                 currentRowTileIndex++; // Move to the next row
