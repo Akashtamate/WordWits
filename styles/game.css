@@ -86,15 +86,14 @@ body {
     background-color: rgb(255, 255, 255);
     padding: 12px;
     border-radius: 5px;
-    /*animation-duration: 10s;*/
-    display: none;
-    transition: opacity 2s ease-out;
-    opacity: 0;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 1.6s ease-out;
+    pointer-events: none; /* Prevent interaction while invisible */
 }
 
 .invalid-entry-container.show {
-    display: flex;
-    opacity: 1;
+    opacity: 1; /* Instantly visible */
+    transition: none; /* Disable transation on appreance  */
 }
 
 .invalid-entry {

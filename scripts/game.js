@@ -1,8 +1,27 @@
+// Selecting the board element where tiles will be added
 const boardEle = document.querySelector('.js-board');
-const rows = 6;  
-const cols = 5;  
+const rows = 6; // Number of rows (maximum attempts)
+const cols = 5; // Number of columns (letters per word)
 
+// Defining keyboard layout (keys for each row)
+const rowOneKeys = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
+const rowTwoKeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
+const rowThreeKeys = ['Z', 'X', 'C', 'V', 'B','N', 'M'];
 
+// Game state tracking variables
+let currentRowTileIndex = 0; // Tracks current row index
+let currentTileIndex = 0; // Tracks current tile position within a row
+let rowStates = Array(rows).fill(false); // Boolean array to track frozen (submitted) rows
+
+//Handling Invalid entry of letters
+const invalidEntryContainerEle = document.querySelector('.js-invalid-entry-container');
+const invalidEntryEle = invalidEntryContainerEle.querySelector('.js-inavalid-entry');
+
+const dbWord = 'AKASH'; //For testing 
+
+/**
+ * Creating the game board dynamically with rows and tiles
+ */
 for (let i = 0; i < rows; i++) {
     const rowEle = document.createElement('div');
     rowEle.classList.add('row-tile'); 
@@ -17,24 +36,12 @@ for (let i = 0; i < rows; i++) {
     }
 }
 
-const rowOneKeys = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
-const rowTwoKeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
-const rowThreeKeys = ['Z', 'X', 'C', 'V', 'B','N', 'M'];
+// Creating the on-screen keyboard
 createKeys(rowOneKeys, 'row-one');
 createKeys(rowTwoKeys, 'row-two');
 createKeys(rowThreeKeys, 'row-three');
 
-function createKeys(keyRowsArr, id) {
-    const keyboardRowEle = document.getElementById(id);
-    keyRowsArr.forEach((key) => {
-        const keyEle = document.createElement('button');
-        keyEle.textContent = key;   
-        keyEle.classList.add('button-keys', 'js-button-keys');
-        keyboardRowEle.appendChild(keyEle);
-    });
-}
-
-//Adding margin to first and last key of row two
+// Adding spacing for row two's first and last keys
 const keyboardRowTwoEle = document.getElementById('row-two');
 const firstChildDiv = document.createElement('div');
 firstChildDiv.classList.add("spacer");
@@ -51,7 +58,7 @@ enterButton.classList.add('enter-clear', 'button-keys');
 enterButton.textContent = 'enter';
 keyBoardRowThreeEle.prepend(enterButton);
 
-//Appending a clear button with svg to row three
+// Adding 'Clear' button with an SVG icon to row three
 const clearButtonEle = document.createElement('button');
 clearButtonEle.classList.add('enter-clear', 'button-keys', 'js-clear-button');
 const svgEle = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -71,15 +78,9 @@ svgEle.appendChild(path);
 clearButtonEle.appendChild(svgEle);
 keyBoardRowThreeEle.appendChild(clearButtonEle);
 
-// Handling the game logic
-let currentRowTileIndex = 0; 
-let currentTileIndex = 0; 
-let rowStates = Array(rows).fill(false); // Tracks whether a row is frozen
-
-//Handling Invalid entry of letters
-const invalidEntryContainerEle = document.querySelector('.js-invalid-entry-container');
-const invalidEntryEle = invalidEntryContainerEle.querySelector('.js-inavalid-entry');
-
+/**
+ * Event listener for handling key presses and game logic
+ */
 document.addEventListener('click', (event) => {
     const target = event.target;
 
@@ -102,44 +103,27 @@ document.addEventListener('click', (event) => {
         }
     }
 
-    let fadeOutTimeout, hideTimeout;
     // Handle 'enter' button
     if (target.classList.contains('enter-clear')) {
         if (target.textContent === 'enter') {
             if (currentTileIndex < cols) {
-                console.log('Not enough letters to submit.');
-                // Implement a modal to show an error message
                 invalidEntryEle.textContent = 'Not enough letters';
+                handleInvalidEntry();
+            } 
+            else {
+                const currentWord = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`).textContent;
+                console.log(`Row ${currentRowTileIndex} submitted: ${currentWord}`);
+                if(currentWord !== dbWord) { //This is for testing
+                    invalidEntryEle.textContent = 'Not in word list';
+                    handleInvalidEntry();
+                }
+                else {
+                    rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
+                    currentRowTileIndex++; // Move to the next row
+                    currentTileIndex = 0; // Reset tile index for the new row
+                    console.log('Row submitted and frozen.');
+                }
                 
-                invalidEntryEle.textContent = 'Not enough letters';
-                invalidEntryContainerEle.style.display = 'flex'; // Make it visible
-                
-                //  Restart the fade-in process
-                invalidEntryContainerEle.style.opacity = '1';
-                
-                // Clear previous timeouts (if any)
-                clearTimeout(fadeOutTimeout);
-                clearTimeout(hideTimeout);
-
-                // Ensure that transition applies smoothly every time
-                setTimeout(() => {
-                    invalidEntryContainerEle.style.transition = 'opacity 2s ease-out';
-                }, 0); // Small delay to reapply transition properly
-
-                // Set a new fade-out timeout
-                fadeOutTimeout = setTimeout(() => {
-                    invalidEntryContainerEle.style.opacity = '0'; // Start fading
-
-                    // After fade-out completes, hide it
-                    hideTimeout = setTimeout(() => {
-                    invalidEntryContainerEle.style.display = 'none';
-                    }, 2000); // Matches opacity transition duration
-                }, 1200); // Keep message visible for 1200ms before fading
-            } else {
-                rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
-                currentRowTileIndex++; // Move to the next row
-                currentTileIndex = 0; // Reset tile index for the new row
-                console.log('Row submitted and frozen.');
             }
         }
     }
@@ -155,3 +139,31 @@ document.addEventListener('click', (event) => {
     }
     console.log(`Row: ${currentRowTileIndex}, Tile: ${currentTileIndex}, Row States: ${rowStates}`);
 });
+
+/**
+ * Function to create keys for each row of the keyboard
+ * @param {Array} keyRowsArr - Array of keys for the row
+ * @param {string} id - ID of the keyboard row container
+ */
+function createKeys(keyRowsArr, id) {
+    const keyboardRowEle = document.getElementById(id);
+    keyRowsArr.forEach((key) => {
+        const keyEle = document.createElement('button');
+        keyEle.textContent = key;   
+        keyEle.classList.add('button-keys', 'js-button-keys');
+        keyboardRowEle.appendChild(keyEle);
+    });
+}
+
+/**
+ * Displays an invalid entry message briefly
+ */
+function handleInvalidEntry() {
+    let invalidEntryTimeout;
+    invalidEntryContainerEle.classList.add('show');      
+    clearTimeout(invalidEntryTimeout);
+    invalidEntryTimeout = setTimeout(() => {
+        invalidEntryContainerEle.classList.remove('show'); 
+    }, 1000);
+}
+
