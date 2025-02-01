@@ -111,6 +111,11 @@ body {
     grid-gap: 0.3125rem;   
 }
 
+.shake-animation {
+    animation-name: row-shake;
+    animation-duration: 600ms;
+}
+
 .tile {
     font-family: "nyt-franklin-600";
     width: 100%;
@@ -131,7 +136,6 @@ body {
 .keyboard-container {
     height: 12.5rem;
     margin: 0 0.5rem;
-    border: 1px solid red;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -140,7 +144,6 @@ body {
 .keyboard {
     height: 12.375rem;
     width: 30.25rem;
-    border: 1px solid blue;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -220,4 +223,22 @@ body {
         min-height: 2.1875rem;
     }
     
+}
+
+@keyframes row-shake {
+    10%, 90% {
+        transform: translateX(-1px);
+    }
+
+    20%, 80% {
+        transform: translateX(2px);
+    }
+
+    30%, 50%, 70% {
+        transform: translateX(-4px);
+    }
+
+    40%, 60% {
+        transform: translateX(4px);
+    }
 }

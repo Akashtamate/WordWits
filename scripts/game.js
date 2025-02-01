@@ -79,65 +79,43 @@ clearButtonEle.appendChild(svgEle);
 keyBoardRowThreeEle.appendChild(clearButtonEle);
 
 /**
- * Event listener for handling key presses and game logic
+ * Event listener for handling key presses from on-screen keyborad
  */
 document.addEventListener('click', (event) => {
     const target = event.target;
-
+    const eventFromKeyboard = false;
     // Handle adding letters
-    if (!rowStates[currentRowTileIndex] && currentRowTileIndex < rows) {
-        if (target.classList.contains('js-button-keys')) {
-            if (currentTileIndex >= cols) {
-                console.log('All 5 letters have been entered. Press "enter" to submit or "clear" to edit.');
-                return; // Prevent further action if the row is already filled
-            }
-
-            const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
-            const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex}"]`);
-            tileEle.textContent = target.textContent;
-
-            currentTileIndex++;
-            if (currentTileIndex === cols) {
-                console.log('Row is filled, waiting for "enter" to freeze or "clear" to edit.');
-            }
-        }
-    }
+    handleLetter(target, eventFromKeyboard);
 
     // Handle 'enter' button
     if (target.classList.contains('enter-clear')) {
         if (target.textContent === 'enter') {
-            if (currentTileIndex < cols) {
-                invalidEntryEle.textContent = 'Not enough letters';
-                handleInvalidEntry();
-            } 
-            else {
-                const currentWord = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`).textContent;
-                console.log(`Row ${currentRowTileIndex} submitted: ${currentWord}`);
-                if(currentWord !== dbWord) { //This is for testing
-                    invalidEntryEle.textContent = 'Not in word list';
-                    handleInvalidEntry();
-                }
-                else {
-                    rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
-                    currentRowTileIndex++; // Move to the next row
-                    currentTileIndex = 0; // Reset tile index for the new row
-                    console.log('Row submitted and frozen.');
-                }
-                
-            }
+            handleEnter();
         }
     }
 
     // Handle 'clear' button
     if (target.classList.contains('js-clear-button')) {
-        if (!rowStates[currentRowTileIndex] && currentTileIndex > 0) {
-            const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
-            const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex - 1}"]`);
-            tileEle.textContent = ''; // Clear the last tile
-            currentTileIndex--;
-        }
+        handleClear();
     }
     console.log(`Row: ${currentRowTileIndex}, Tile: ${currentTileIndex}, Row States: ${rowStates}`);
+});
+
+/**
+ * Event listener for handling key presses from the physical keyboard
+ */
+document.addEventListener('keydown', (event) => {
+    const key = event.key.toUpperCase();
+    const eventFromKeyboard = true;
+    if(key === 'ENTER') {
+        handleEnter();
+    }
+    else if(key === 'BACKSPACE'){
+        handleClear();
+    }
+    else if(/^[A-Z]$/.test(key)) {
+        handleLetter(key, eventFromKeyboard);
+    }
 });
 
 /**
@@ -156,6 +134,77 @@ function createKeys(keyRowsArr, id) {
 }
 
 /**
+ * Function to handle adding of letters
+ * @param {*} target 
+ * @param {*} eventFromKeyboard 
+ * @returns 
+ */
+function handleLetter(target, eventFromKeyboard) {
+    if (!rowStates[currentRowTileIndex] && currentRowTileIndex < rows) {
+        if (eventFromKeyboard  || target.classList.contains('js-button-keys')) {
+            if (currentTileIndex >= cols) {
+                console.log('All 5 letters have been entered. Press "enter" to submit or "clear" to edit.');
+                return; // Prevent further action if the row is already filled
+            }
+
+            const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+            const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex}"]`);
+            if(eventFromKeyboard) {
+                tileEle.textContent = target;
+            }
+            else {
+                tileEle.textContent = target.textContent;
+            }
+            
+            currentTileIndex++;
+            if (currentTileIndex === cols) {
+                console.log('Row is filled, waiting for "enter" to freeze or "clear" to edit.');
+            }
+        }
+    }
+}
+
+/**
+ * Function to handle 'enter' button press
+ */
+function handleEnter() {
+    if (currentTileIndex < cols) {
+
+        invalidEntryEle.textContent = 'Not enough letters';
+        handleInvalidEntry();
+        shakeAnimation(currentRowTileIndex);
+    } 
+    else {
+        const currentWord = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`).textContent;
+        console.log(`Row ${currentRowTileIndex} submitted: ${currentWord}`);
+        if(currentWord !== dbWord) { //This is for testing
+            invalidEntryEle.textContent = 'Not in word list';
+            handleInvalidEntry();
+            shakeAnimation(currentRowTileIndex);
+        }
+        else {
+            rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
+            currentRowTileIndex++; // Move to the next row
+            currentTileIndex = 0; // Reset tile index for the new row
+            console.log('Row submitted and frozen.');
+        }
+        
+    }
+}
+
+/**
+ * Function to handle 'clear' button press
+ */
+function handleClear() {
+    if (!rowStates[currentRowTileIndex] && currentTileIndex > 0) {
+        const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+        const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex - 1}"]`);
+        tileEle.textContent = ''; // Clear the last tile
+        currentTileIndex--;
+    }
+}
+
+/**
  * Displays an invalid entry message briefly
  */
 function handleInvalidEntry() {
@@ -165,5 +214,19 @@ function handleInvalidEntry() {
     invalidEntryTimeout = setTimeout(() => {
         invalidEntryContainerEle.classList.remove('show'); 
     }, 1000);
+}
+
+/**
+ * @param {*} currentRowTileIndex 
+ * Function to animate the row tile when invalid entry is made
+ */
+function shakeAnimation(currentRowTileIndex) {
+    let shakeTimeout
+    const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`); 
+    rowTileEle.classList.add('shake-animation');
+    clearTimeout(shakeTimeout);
+    shakeTimeout = setTimeout(() => {
+        rowTileEle.classList.remove('shake-animation');
+    }, 600);
 }
 
