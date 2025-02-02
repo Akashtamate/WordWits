@@ -18,7 +18,8 @@ const invalidEntryContainerEle = document.querySelector('.js-invalid-entry-conta
 const invalidEntryEle = invalidEntryContainerEle.querySelector('.js-inavalid-entry');
 
 const dbWord = 'AKASH'; //For testing 
-
+const validWordsArr = ['ADIEU', 'AUDIO', 'GRECE', 'ROCHE', 'CHORE', 'BLISS', 'AKASH']; //For testing
+const randomFinalWord = validWordsArr[Math.floor(Math.random() * validWordsArr.length)]; //For testing
 /**
  * Creating the game board dynamically with rows and tiles
  */
@@ -168,29 +169,88 @@ function handleLetter(target, eventFromKeyboard) {
  * Function to handle 'enter' button press
  */
 function handleEnter() {
-    if (currentTileIndex < cols) {
+    const currentWord = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`).textContent;
 
+    if (currentTileIndex < cols) {
         invalidEntryEle.textContent = 'Not enough letters';
         handleInvalidEntry();
         shakeAnimation(currentRowTileIndex);
     } 
     else {
-        const currentWord = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`).textContent;
         console.log(`Row ${currentRowTileIndex} submitted: ${currentWord}`);
-        if(currentWord !== dbWord) { //This is for testing
+
+        if (!(validWordsArr.includes(currentWord))) {
             invalidEntryEle.textContent = 'Not in word list';
             handleInvalidEntry();
             shakeAnimation(currentRowTileIndex);
         }
         else {
-            rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
-            currentRowTileIndex++; // Move to the next row
-            currentTileIndex = 0; // Reset tile index for the new row
-            console.log('Row submitted and frozen.');
-        }
-        
+            if (currentWord === randomFinalWord) {
+                console.log('Congratulations! You have won the game.');
+                for (let i = 0; i < cols; i++) {
+                    let parentRowTile = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+                    let currentTile = parentRowTile.querySelector(`.tile[data-index="${i}"]`);
+                    currentTile.style.backgroundColor = '#538d4e';
+                }
+                return;
+            } 
+            else {
+                let letterCount = {}; // Track letter occurrences in randomFinalWord
+
+                for (let char of randomFinalWord) {
+                    letterCount[char] = (letterCount[char] || 0) + 1;
+                }
+
+                let resultColors = Array(cols).fill('#3a3a3c'); // Default all tiles to black
+                let usedLetters = {}; // Track how many times a letter was marked
+                
+                // First pass: Handle Green (Correct Position)
+                for (let i = 0; i < cols; i++) {
+                    let parentRowTile = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+                    let currentTile = parentRowTile.querySelector(`.tile[data-index="${i}"]`);
+                    let guessedLetter = currentWord[i];
+
+                    if (guessedLetter === randomFinalWord[i]) {
+                        resultColors[i] = '#538d4e'; 
+                        letterCount[guessedLetter]--; // Reduce count as it's already used
+                    }
+                }
+
+                // Second pass: Handle Yellow (Correct Letter, Wrong Position)
+                for (let i = 0; i < cols; i++) {
+                    let parentRowTile = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+                    let currentTile = parentRowTile.querySelector(`.tile[data-index="${i}"]`);
+                    let guessedLetter = currentWord[i];
+
+                    if (resultColors[i] === '#538d4e') continue; // Skip already processed greens
+
+                    if (randomFinalWord.includes(guessedLetter) && letterCount[guessedLetter] > 0) {
+                        resultColors[i] = '#b59f3b';
+                        letterCount[guessedLetter]--; // Reduce available occurrences
+                    }
+                }
+
+                // Apply the colors to tiles
+                for (let i = 0; i < cols; i++) {
+                    let parentRowTile = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+                    let currentTile = parentRowTile.querySelector(`.tile[data-index="${i}"]`);
+                    currentTile.style.backgroundColor = resultColors[i];
+                }
+
+                rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
+                const frozenRowEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+                const frozenRowTiles = frozenRowEle.querySelectorAll('.tile');
+                frozenRowTiles.forEach(tile => {
+                    tile.style.border = 'none'; // Remove border from each tile
+                }); // Remove border from frozen row
+                currentRowTileIndex++; // Move to next row
+                currentTileIndex = 0; // Reset tile index for new row
+                console.log('Row submitted and frozen.');
+            }
+        }  
     }
 }
+
 
 /**
  * Function to handle 'clear' button press
