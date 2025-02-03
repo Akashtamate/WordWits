@@ -191,6 +191,7 @@ function handleEnter() {
                     let parentRowTile = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
                     let currentTile = parentRowTile.querySelector(`.tile[data-index="${i}"]`);
                     currentTile.style.backgroundColor = '#538d4e';
+                    flipAnimation(currentRowTileIndex);
                 }
                 return;
             } 
@@ -287,6 +288,16 @@ function shakeAnimation(currentRowTileIndex) {
     clearTimeout(shakeTimeout);
     shakeTimeout = setTimeout(() => {
         rowTileEle.classList.remove('shake-animation');
+    }, 600);
+}
+
+function flipAnimation(currentRowTileIndex) {
+    let flipTimeout;
+    const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`); 
+    rowTileEle.classList.add('flip-animation');
+    clearTimeout(flipTimeout);
+    shakeTimeout = setTimeout(() => {
+        rowTileEle.classList.remove('flip-animation');
     }, 600);
 }
 

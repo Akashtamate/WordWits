@@ -116,6 +116,12 @@ body {
     animation-duration: 600ms;
 }
 
+.flip-animation {
+    animation-name: flip;
+    animation-duration: 250ms;
+    animation-timing-function: ease-in;
+}
+
 .tile {
     font-family: "nyt-franklin-600";
     width: 100%;
@@ -242,3 +248,13 @@ body {
         transform: translateX(4px);
     }
 }
+
+
+@keyframes flip {
+    0% {
+      transform: rotateX(-90deg);
+    }
+    100% {
+      transform: rotateX(0);
+    }
+  }
