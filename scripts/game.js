@@ -190,8 +190,14 @@ function handleEnter() {
                 for (let i = 0; i < cols; i++) {
                     let parentRowTile = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
                     let currentTile = parentRowTile.querySelector(`.tile[data-index="${i}"]`);
-                    currentTile.style.backgroundColor = '#538d4e';
                     flipAnimation(currentRowTileIndex);
+                    //currentTile.style.backgroundColor = '#538d4e';
+                    const frozenRowEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+                    const frozenRowTiles = frozenRowEle.querySelectorAll('.tile');
+                    frozenRowTiles.forEach(tile => {
+                        tile.style.border = 'none'; // Remove border from each tile
+                    }); // Remove border from frozen row
+                    
                 }
                 return;
             } 
@@ -291,13 +297,44 @@ function shakeAnimation(currentRowTileIndex) {
     }, 600);
 }
 
+// function flipAnimation(currentRowTileIndex) {
+//     let flipTimeout;
+//     const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`); 
+//     //rowTileEle.classList.add('flip-animation');
+//     for(let i = 0; i < cols; i++) {
+//         let currentTile = rowTileEle.querySelector(`.tile[data-index="${i}"]`);
+//         //currentTile.style.animation-delay = `${i * 100}ms`;
+//         currentTile.style.animationDelay = `${i * 100}ms`;
+//         currentTile.classList.add('flip-animation');
+//     }
+    
+//     // clearTimeout(flipTimeout);
+//     // flipTimeout = setTimeout(() => {
+//     //     rowTileEle.classList.remove('flip-animation');
+//     // }, 600);
+// }
+
 function flipAnimation(currentRowTileIndex) {
-    let flipTimeout;
     const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`); 
-    rowTileEle.classList.add('flip-animation');
-    clearTimeout(flipTimeout);
-    shakeTimeout = setTimeout(() => {
-        rowTileEle.classList.remove('flip-animation');
-    }, 600);
+    
+    for(let i = 0; i < cols; i++) {
+        let currentTile = rowTileEle.querySelector(`.tile[data-index="${i}"]`);
+        let letter = currentTile.innerText; // Capture letter before flipping
+
+        setTimeout(() => {
+            currentTile.classList.add('flip-animation');
+
+            // Midway through the animation (250ms), change letter and color
+            setTimeout(() => {
+                currentTile.style.backgroundColor = '#538d4e';
+            }, 250); // Change color midway through flip (half of 500ms duration)
+
+            // Remove animation class after it completes
+            setTimeout(() => {
+                currentTile.classList.remove('flip-animation');
+            }, 500); // Matches animation duration
+        }, i * 300); // Staggered delay for smooth effect
+    }
 }
+
 
