@@ -122,6 +122,14 @@ body {
     animation-timing-function: ease-in;
 }
 
+.pop-effect {
+    animation: pop 0.15s ease-in-out;
+}
+
+.jump-effect {
+    animation: jump 0.3s ease-out;
+}
+
 .tile {
     font-family: "nyt-franklin-600";
     width: 100%;
@@ -261,3 +269,46 @@ body {
         transform: rotateX(0); /* Fully revealed */
     }
 }
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+
+    /* Start at normal position */
+    30% {
+        transform: translateY(-10px);
+    }
+
+    /* Move up slightly */
+    50% {
+        transform: translateY(0);
+    }
+
+    /* Back to normal */
+    70% {
+        transform: translateY(-5px);
+    }
+
+    /* Small bounce */
+    100% {
+        transform: translateY(0);
+    }
+
+    /* Rest in place */
+}
+

@@ -152,11 +152,20 @@ function handleLetter(target, eventFromKeyboard) {
             const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex}"]`);
             if(eventFromKeyboard) {
                 tileEle.textContent = target;
+                tileEle.style.border ='2px solid #565758';
             }
             else {
                 tileEle.textContent = target.textContent;
+                tileEle.style.border ='2px solid #565758';
             }
             
+            // **Apply the pop effect**
+            tileEle.classList.add('pop-effect');
+
+            setTimeout(() => {
+                tileEle.classList.remove('pop-effect');
+            }, 150); 
+
             currentTileIndex++;
             if (currentTileIndex === cols) {
                 console.log('Row is filled, waiting for "enter" to freeze or "clear" to edit.');
@@ -187,18 +196,10 @@ function handleEnter() {
         else {
             if (currentWord === randomFinalWord) {
                 console.log('Congratulations! You have won the game.');
-                for (let i = 0; i < cols; i++) {
-                    let parentRowTile = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
-                    let currentTile = parentRowTile.querySelector(`.tile[data-index="${i}"]`);
-                    flipAnimation(currentRowTileIndex);
-                    //currentTile.style.backgroundColor = '#538d4e';
-                    const frozenRowEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
-                    const frozenRowTiles = frozenRowEle.querySelectorAll('.tile');
-                    frozenRowTiles.forEach(tile => {
-                        tile.style.border = 'none'; // Remove border from each tile
-                    }); // Remove border from frozen row
-                    
-                }
+                rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
+                flipAnimation(currentRowTileIndex, true).then(() => {
+                    jumpAnimation(currentRowTileIndex);
+                });
                 return;
             } 
             else {
@@ -209,12 +210,9 @@ function handleEnter() {
                 }
 
                 let resultColors = Array(cols).fill('#3a3a3c'); // Default all tiles to black
-                let usedLetters = {}; // Track how many times a letter was marked
                 
                 // First pass: Handle Green (Correct Position)
                 for (let i = 0; i < cols; i++) {
-                    let parentRowTile = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
-                    let currentTile = parentRowTile.querySelector(`.tile[data-index="${i}"]`);
                     let guessedLetter = currentWord[i];
 
                     if (guessedLetter === randomFinalWord[i]) {
@@ -225,8 +223,6 @@ function handleEnter() {
 
                 // Second pass: Handle Yellow (Correct Letter, Wrong Position)
                 for (let i = 0; i < cols; i++) {
-                    let parentRowTile = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
-                    let currentTile = parentRowTile.querySelector(`.tile[data-index="${i}"]`);
                     let guessedLetter = currentWord[i];
 
                     if (resultColors[i] === '#538d4e') continue; // Skip already processed greens
@@ -237,22 +233,12 @@ function handleEnter() {
                     }
                 }
 
-                // Apply the colors to tiles
-                for (let i = 0; i < cols; i++) {
-                    let parentRowTile = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
-                    let currentTile = parentRowTile.querySelector(`.tile[data-index="${i}"]`);
-                    currentTile.style.backgroundColor = resultColors[i];
-                }
-
                 rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
-                const frozenRowEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
-                const frozenRowTiles = frozenRowEle.querySelectorAll('.tile');
-                frozenRowTiles.forEach(tile => {
-                    tile.style.border = 'none'; // Remove border from each tile
-                }); // Remove border from frozen row
-                currentRowTileIndex++; // Move to next row
-                currentTileIndex = 0; // Reset tile index for new row
-                console.log('Row submitted and frozen.');
+                flipAnimation(currentRowTileIndex, false, resultColors).then(() => {
+                    currentRowTileIndex++; // Move to next row
+                    currentTileIndex = 0; // Reset tile index for new row
+                    console.log('Row submitted and frozen.');
+                });
             }
         }  
     }
@@ -267,6 +253,7 @@ function handleClear() {
         const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
         const tileEle = rowTileEle.querySelector(`.tile[data-index="${currentTileIndex - 1}"]`);
         tileEle.textContent = ''; // Clear the last tile
+        tileEle.style.border = '2px solid #3a3a3c';
         currentTileIndex--;
     }
 }
@@ -297,44 +284,91 @@ function shakeAnimation(currentRowTileIndex) {
     }, 600);
 }
 
-// function flipAnimation(currentRowTileIndex) {
-//     let flipTimeout;
+/*
+    * @param {*} currentRowTileIndex 
+    * @param {*} isWin 
+    * @param {*} resultColors 
+    * Function to animate the row tile when valid entry is made
+    */
+// function flipAnimation(currentRowTileIndex, isWin, resultColors) {
 //     const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`); 
-//     //rowTileEle.classList.add('flip-animation');
+    
 //     for(let i = 0; i < cols; i++) {
 //         let currentTile = rowTileEle.querySelector(`.tile[data-index="${i}"]`);
-//         //currentTile.style.animation-delay = `${i * 100}ms`;
-//         currentTile.style.animationDelay = `${i * 100}ms`;
-//         currentTile.classList.add('flip-animation');
+
+//         setTimeout(() => {
+//             currentTile.classList.add('flip-animation');
+
+//             // Midway through the animation (250ms), change letter and color
+//             setTimeout(() => {
+//                 if (isWin) {
+//                     currentTile.style.backgroundColor = '#538d4e';
+//                 }
+//                 else {
+//                     currentTile.style.backgroundColor = resultColors[i];
+//                 }
+//                 currentTile.style.border = 'none';
+//             }, 250); // Change color midway through flip (half of 500ms duration)
+
+//             // Remove animation class after it completes
+//             setTimeout(() => {
+//                 currentTile.classList.remove('flip-animation');
+//             }, 500); // Matches animation duration
+//         }, i * 300); // Staggered delay for smooth effect
 //     }
-    
-//     // clearTimeout(flipTimeout);
-//     // flipTimeout = setTimeout(() => {
-//     //     rowTileEle.classList.remove('flip-animation');
-//     // }, 600);
 // }
 
-function flipAnimation(currentRowTileIndex) {
-    const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`); 
-    
-    for(let i = 0; i < cols; i++) {
-        let currentTile = rowTileEle.querySelector(`.tile[data-index="${i}"]`);
-        let letter = currentTile.innerText; // Capture letter before flipping
+function flipAnimation(currentRowTileIndex, isWin, resultColors) {
+    return new Promise((resolve) => {
+        const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`); 
+        let completedAnimations = 0; // To track when all tiles finish flipping
 
+        for (let i = 0; i < cols; i++) {
+            let currentTile = rowTileEle.querySelector(`.tile[data-index="${i}"]`);
+
+            setTimeout(() => {
+                currentTile.classList.add('flip-animation');
+
+                // Midway through the animation (250ms), change letter and color
+                setTimeout(() => {
+                    if (isWin) {
+                        currentTile.style.backgroundColor = '#538d4e';
+                    } else {
+                        currentTile.style.backgroundColor = resultColors[i];
+                    }
+                    currentTile.style.border = 'none';
+                }, 250); // Change color midway through flip
+
+                // Remove animation class after it completes
+                setTimeout(() => {
+                    currentTile.classList.remove('flip-animation');
+                    completedAnimations++;
+
+                    // If all tiles in the row have finished flipping, resolve the Promise
+                    if (completedAnimations === cols) {
+                        resolve(); // Resolves when all animations in the row are done
+                    }
+                }, 500); // Matches animation duration
+            }, i * 300); // Staggered delay for smooth effect
+        }
+    });
+}
+
+
+function jumpAnimation(currentRowTileIndex) {
+    const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`);
+    const tiles = rowTileEle.querySelectorAll('.tile');
+
+    tiles.forEach((tile, index) => {
         setTimeout(() => {
-            currentTile.classList.add('flip-animation');
+            tile.classList.add('jump-effect');
 
-            // Midway through the animation (250ms), change letter and color
+            // Remove class after animation completes (to allow re-triggering)
             setTimeout(() => {
-                currentTile.style.backgroundColor = '#538d4e';
-            }, 250); // Change color midway through flip (half of 500ms duration)
-
-            // Remove animation class after it completes
-            setTimeout(() => {
-                currentTile.classList.remove('flip-animation');
-            }, 500); // Matches animation duration
-        }, i * 300); // Staggered delay for smooth effect
-    }
+                tile.classList.remove('jump-effect');
+            }, 300); // Match animation duration
+        }, index * 100); // Delay each tile slightly for a wave effect
+    });
 }
 
 
