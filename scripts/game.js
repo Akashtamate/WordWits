@@ -129,6 +129,7 @@ function createKeys(keyRowsArr, id) {
     keyRowsArr.forEach((key) => {
         const keyEle = document.createElement('button');
         keyEle.textContent = key;   
+        keyEle.setAttribute('data-key', key.charCodeAt(0));
         keyEle.classList.add('button-keys', 'js-button-keys');
         keyboardRowEle.appendChild(keyEle);
     });
@@ -178,6 +179,9 @@ function handleLetter(target, eventFromKeyboard) {
  * Function to handle 'enter' button press
  */
 function handleEnter() {
+    if(currentRowTileIndex === rows) {
+        return;
+    }
     const currentWord = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`).textContent;
 
     if (currentTileIndex < cols) {
@@ -199,6 +203,32 @@ function handleEnter() {
                 rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
                 flipAnimation(currentRowTileIndex, true).then(() => {
                     jumpAnimation(currentRowTileIndex);
+                    // Change on-screen keyboard colors to match the result
+                    for(let i = 0; i < cols; i++) {
+                        let keyBoardLetter = document.querySelector((`[data-key="${currentWord[i].charCodeAt(0)}"]`));
+                        keyBoardLetter.style.backgroundColor = '#538d4e'
+                    }
+                    switch(currentRowTileIndex) {
+                        case 0:
+                            invalidEntryEle.textContent = 'Genius';
+                            break;
+                        case 1: 
+                            invalidEntryEle.textContent = 'Magnificent';
+                            break;
+                        case 2:
+                            invalidEntryEle.textContent = 'Impressive';
+                            break;
+                        case 3:
+                            invalidEntryEle.textContent = 'Splendid';
+                            break;
+                        case 4:
+                            invalidEntryEle.textContent = 'Great';
+                            break;
+                        case 5:
+                            invalidEntryEle.textContent = 'Phew!';
+                            break;
+                    }
+                    handleInvalidEntry();
                 });
                 return;
             } 
@@ -235,7 +265,16 @@ function handleEnter() {
 
                 rowStates[currentRowTileIndex] = true; // Freeze the row after pressing enter
                 flipAnimation(currentRowTileIndex, false, resultColors).then(() => {
+                    // Change on-screen keyboard colors to match the result
+                    for(let i = 0; i < cols; i++) {
+                        let keyBoardLetter = document.querySelector((`[data-key="${currentWord[i].charCodeAt(0)}"]`));
+                        keyBoardLetter.style.backgroundColor = resultColors[i];
+                    }
                     currentRowTileIndex++; // Move to next row
+                    if (currentRowTileIndex === rows) {
+                        invalidEntryEle.textContent = randomFinalWord
+                        handleInvalidEntry();
+                    }
                     currentTileIndex = 0; // Reset tile index for new row
                     console.log('Row submitted and frozen.');
                 });
