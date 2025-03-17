@@ -367,7 +367,7 @@ function jumpAnimation(currentRowTileIndex) {
             setTimeout(() => {
                 tile.classList.remove('jump-effect');
             }, 300); // Match animation duration
-        }, index * 100); // Delay each tile slightly for a wave effect
+        }, index * 130); // Delay each tile slightly for a wave effect
     });
 }
 

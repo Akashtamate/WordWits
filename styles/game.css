@@ -291,7 +291,7 @@ body {
 
     /* Start at normal position */
     30% {
-        transform: translateY(-10px);
+        transform: translateY(-15px);
     }
 
     /* Move up slightly */
@@ -301,7 +301,7 @@ body {
 
     /* Back to normal */
     70% {
-        transform: translateY(-5px);
+        transform: translateY(-10px);
     }
 
     /* Small bounce */
