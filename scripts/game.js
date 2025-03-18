@@ -3,6 +3,8 @@ const boardEle = document.querySelector('.js-board');
 const rows = 6; // Number of rows (maximum attempts)
 const cols = 5; // Number of columns (letters per word)
 
+let isGameOver = false; // Game over flag
+
 // Defining keyboard layout (keys for each row)
 const rowOneKeys = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
 const rowTwoKeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
@@ -91,7 +93,8 @@ document.addEventListener('click', (event) => {
     // Handle 'enter' button
     if (target.classList.contains('enter-clear')) {
         if (target.textContent === 'enter') {
-            handleEnter();
+            if(!isGameOver)
+                handleEnter();
         }
     }
 
@@ -109,7 +112,8 @@ document.addEventListener('keydown', (event) => {
     const key = event.key.toUpperCase();
     const eventFromKeyboard = true;
     if(key === 'ENTER') {
-        handleEnter();
+        if(!isGameOver)
+            handleEnter();
     }
     else if(key === 'BACKSPACE'){
         handleClear();
@@ -230,6 +234,7 @@ function handleEnter() {
                     }
                     handleInvalidEntry();
                 });
+                isGameOver = true;
                 return;
             } 
             else {
