@@ -43,6 +43,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: opacity 0.15s;
+    cursor: pointer;
+}
+
+.settings-button:hover, .help-button:hover, .leader-board-button:hover, .stats-button:hover, .hint-button:hover {
+    background-color: #282727; 
 }
 
 .logout-button {
@@ -76,6 +82,21 @@ body {
     box-sizing: border-box;
     grid-template-rows: repeat(6, 1fr);
     grid-gap: 0.3125rem;
+}
+
+.how-to-play-container {
+    position: relative;
+    border-radius: 8px;
+    border: 1px solid #1a1a1b;
+    background-color: #121213;
+    color: #f8f8f8;
+    box-shadow: 0 4px 23px 0 rgba(0, 0, 0, .2);
+    width: 90%;
+    max-height: 100%;
+    overflow-y: auto;
+    animation: Modal-module_SlideIn__BF5gw 200ms;
+    max-width: 520px;
+    box-sizing: border-box;
 }
 
 .invalid-entry-container {
@@ -236,6 +257,10 @@ body {
         padding: 0 1rem;
         min-height: 2.1875rem;
     }
+
+    .hint-button, .stats-button, .leader-board-button, .help-button, .settings-button {
+        padding: 4px;
+    }
     
 }
 
@@ -312,3 +337,9 @@ body {
     /* Rest in place */
 }
 
+@keyframes Modal-module_SlideIn__BF5gw {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+}
