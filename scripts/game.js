@@ -102,6 +102,20 @@ document.addEventListener('click', (event) => {
     if (target.classList.contains('js-clear-button')) {
         handleClear();
     }
+
+    //Handle "help button" click
+    if(target.classList.contains('help-button')) {
+        const howToPlayContainer = document.querySelector('.how-to-play-container');
+        const topHeaderSection = document.querySelector('.top-header');
+        const boardConbtainer = document.querySelector('.board-container');
+        const keyboardContainer = document.querySelector('.keyboard-container');
+        
+        howToPlayContainer.style.display = "";
+        topHeaderSection.style.pointerEvents = "none";
+        boardConbtainer.style.pointerEvents = "none";
+        keyboardContainer.style.pointerEvents = "none";
+
+    }
     console.log(`Row: ${currentRowTileIndex}, Tile: ${currentTileIndex}, Row States: ${rowStates}`);
 });
 
