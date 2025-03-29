@@ -117,6 +117,7 @@ document.addEventListener('click', (event) => {
         const keyboardContainer = document.querySelector('.keyboard-container');
         console.log("Entered help button click");
         howToPlayContainer.style.display = "flex";
+        flipAnimation();
         topHeaderSection.style.pointerEvents = "none";
         boardConbtainer.style.pointerEvents = "none";
         keyboardContainer.style.pointerEvents = "none";
@@ -396,39 +397,59 @@ function shakeAnimation(currentRowTileIndex) {
 // }
 
 function flipAnimation(currentRowTileIndex, isWin, resultColors) {
-    return new Promise((resolve) => {
-        const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`); 
-        let completedAnimations = 0; // To track when all tiles finish flipping
+    if(currentRowTileIndex === undefined && isWin === undefined && resultColors === undefined) {
+        const colorMap = ['#538d4e', '#b59f3b', '#3a3a3c']; // Green, Yellow, Black
+        const tileIndices = [0, 2, 4]; // Corresponding tile indices for example-row
 
-        for (let i = 0; i < cols; i++) {
-            let currentTile = rowTileEle.querySelector(`.tile[data-index="${i}"]`);
-
+        tileIndices.forEach((tileIndex, i) => {
+            const helpRowTileEle = document.querySelector(`.example-row-tile[data-index="${i}"]`);
             setTimeout(() => {
-                currentTile.classList.add('flip-animation');
+                const helpTileEle = helpRowTileEle.querySelector(`.tile[data-index="${tileIndex}"]`);
+                helpTileEle.classList.add('flip-animation');
 
-                // Midway through the animation (250ms), change letter and color
                 setTimeout(() => {
-                    if (isWin) {
-                        currentTile.style.backgroundColor = '#538d4e';
-                    } else {
-                        currentTile.style.backgroundColor = resultColors[i];
-                    }
-                    currentTile.style.border = 'none';
-                }, 250); // Change color midway through flip
-
-                // Remove animation class after it completes
-                setTimeout(() => {
-                    currentTile.classList.remove('flip-animation');
-                    completedAnimations++;
-
-                    // If all tiles in the row have finished flipping, resolve the Promise
-                    if (completedAnimations === cols) {
-                        resolve(); // Resolves when all animations in the row are done
-                    }
-                }, 500); // Matches animation duration
+                    helpTileEle.style.backgroundColor = colorMap[i];
+                    helpTileEle.style.border = 'none';
+                }, 250); // Change the color midway through flip
             }, i * 300); // Staggered delay for smooth effect
-        }
-    });
+        });
+    }
+    else {
+        return new Promise((resolve) => {
+            const rowTileEle = document.querySelector(`.row-tile[data-index="${currentRowTileIndex}"]`); 
+            let completedAnimations = 0; // To track when all tiles finish flipping
+    
+            for (let i = 0; i < cols; i++) {
+                let currentTile = rowTileEle.querySelector(`.tile[data-index="${i}"]`);
+    
+                setTimeout(() => {
+                    currentTile.classList.add('flip-animation');
+    
+                    // Midway through the animation (250ms), change letter and color
+                    setTimeout(() => {
+                        if (isWin) {
+                            currentTile.style.backgroundColor = '#538d4e';
+                        } else {
+                            currentTile.style.backgroundColor = resultColors[i];
+                        }
+                        currentTile.style.border = 'none';
+                    }, 250); // Change color midway through flip
+    
+                    // Remove animation class after it completes
+                    setTimeout(() => {
+                        currentTile.classList.remove('flip-animation');
+                        completedAnimations++;
+    
+                        // If all tiles in the row have finished flipping, resolve the Promise
+                        if (completedAnimations === cols) {
+                            resolve(); // Resolves when all animations in the row are done
+                        }
+                    }, 500); // Matches animation duration
+                }, i * 300); // Staggered delay for smooth effect
+            }
+        });
+    }
+    
 }
 
 
