@@ -25,6 +25,20 @@ body {
     src: url("../fonts/franklin-normal-800.ttf") format("truetype");
 }
 
+@font-face {
+    font-family: "NYTKarnakCondensed";
+    src: url("../fonts/NYTKarnakCondensed.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "nyt-karnak";
+    src: url("../fonts/KarnakPro-Medium.ttf") format("truetype"); 
+}
+
+strong {
+    font-family : "nyt-franklin-800";
+}
+
 .top-header {
     width: 100%;
     display: flex;
@@ -103,16 +117,126 @@ body {
     width: 90%;
     overflow-y: auto;
     box-sizing: border-box;
-    background-color: red;
+    background-color: #121213;
     border: 1px solid #1a1a1b;
     border-radius: 8px;
     padding: 32px;
     box-shadow: 0 4px 23px 0 rgba(0, 0, 0, .2);
-    animation: Modal-module_SlideIn__BF5gw 200ms;
+    animation: Modal-module_SlideIn__BF5gw 200ms ease-out;
     color: #f8f8f8;
     display: none;
 }
 
+.how-to-play-modal {
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    user-select: none;
+    cursor: pointer;
+    animation: Modal-module_AntiSlideIn__KUwJS 200ms;
+}
+
+.close-button svg {
+    width: 100%;
+    height: auto;
+}
+
+.Guess-the-word-para {
+    font-family: "nyt-karnak";
+    font-weight: 200;
+    font-size: 24px;
+    line-height: 30px;
+    margin: 0;
+}
+.how-to-play-header {
+    font-family: "NYTKarnakCondensed";
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: 0;
+    line-height: 30px;
+    text-transform: none;
+    text-align: left;
+    margin-bottom: 4px;
+    margin-top: 29px;
+    display: block;
+}
+
+.Instruction-list {
+    font-family: "nyt-franklin-600";
+    font-size: 16px;
+    line-height: 20px;
+    list-style-type: disc;
+    font-weight: 500;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    padding-inline-start: 20px;
+    color: #f8f8f8;
+}
+
+.Instruction-list li {
+    margin-bottom: 4px;
+}
+
+.examples-header {
+    font-family: "nyt-franklin-600";
+    font-weight: bold;
+    font-size: 19px;
+    line-height: 20px;
+    color: #f8f8f8;
+}
+
+li::marker {
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+    text-indent: 0px !important;
+    text-align: start !important;
+    text-align-last: auto !important;
+}
+
+.examples {
+    margin-top: 8px;
+    margin-bottom: 20px;
+}
+
+.example-para {
+    font-family: "nyt-franklin-600";
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 8px;
+    margin-bottom: 20px;
+}
+
+.example-row-tile {
+    max-width: 200px;
+    margin-top: 8px;
+}
+
+#example-tile {
+    border: 2px solid #565758;
+    font-size: 2rem;
+    text-align: center;
+    line-height: normal;
+    height: auto;
+}
+
+.new-puzzle-time {
+    font-family: "nyt-franklin-600";
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 20px;
+}
 .invalid-entry-container {
     justify-content: center;
     align-items: center;
@@ -359,8 +483,24 @@ body {
 
 @keyframes Modal-module_SlideIn__BF5gw {
     0% {
-        transform: translateY(30px);
+        transform: translate(-50%, 70vh);
         opacity: 0;
     }
+    100% {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
 }
+
+@keyframes Modal-module_AntiSlideIn__KUwJS{
+    0% {
+        transform: translateY(-30px);
+    }
+    
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
 

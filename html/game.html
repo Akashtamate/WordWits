@@ -35,7 +35,7 @@
                 </button>
     
                 <button type="button" class="help-button">
-                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 32 32" width="32" class="game-icon" data-testid="icon-help">
+                    <svg class="help-button-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 32 32" width="32" class="game-icon" data-testid="icon-help">
                         <path fill="white" d="M15 24H17.6667V21.3333H15V24ZM16.3333 2.66666C8.97333 2.66666 3 8.63999 3 16C3 23.36 8.97333 29.3333 16.3333 29.3333C23.6933 29.3333 29.6667 23.36 29.6667 16C29.6667 8.63999 23.6933 2.66666 16.3333 2.66666ZM16.3333 26.6667C10.4533 26.6667 5.66667 21.88 5.66667 16C5.66667 10.12 10.4533 5.33332 16.3333 5.33332C22.2133 5.33332 27 10.12 27 16C27 21.88 22.2133 26.6667 16.3333 26.6667ZM16.3333 7.99999C13.3867 7.99999 11 10.3867 11 13.3333H13.6667C13.6667 11.8667 14.8667 10.6667 16.3333 10.6667C17.8 10.6667 19 11.8667 19 13.3333C19 16 15 15.6667 15 20H17.6667C17.6667 17 21.6667 16.6667 21.6667 13.3333C21.6667 10.3867 19.28 7.99999 16.3333 7.99999Z"></path>
                     </svg>
                 </button>
@@ -66,7 +66,63 @@
         </div>
 
         <div class="how-to-play-container">
-            
+            <div class="how-to-play-modal"> 
+                <h2 class="how-to-play-header">How to play</h2>
+                <button class="close-button js-close-button" type="button" aria-label="Close">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" class="game-icon" data-testid="icon-close">
+                        <path fill="#f8f8f8" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                    </svg>
+                </button>
+                <p class="Guess-the-word-para">Guess the Word in 6 tries.</p>
+                <section class="Instruction-section">
+                    <ul class="Instruction-list">
+                        <li>Each guess must be a valid 5-letter word.</li>
+                        <li>The color of the tiles will change to show how close your guess was to the word.</li>
+                    </ul>
+                    <div class="examples-container js-examples-container">
+                        <h3 class="examples-header">Examples</h3>
+                        <div class="examples js-examples">
+                            <div class="row-tile example-row-tile">
+                                <div class="tile" id="example-tile">S</div>
+                                <div class="tile" id="example-tile">T</div>
+                                <div class="tile" id="example-tile">U</div>
+                                <div class="tile" id="example-tile">D</div>
+                                <div class="tile" id="example-tile">Y</div>
+                            </div>
+                            <p class="example-para">
+                                <strong>W</strong> is in the word and in the correct spot.
+                            </p>
+                        </div>
+                        <div class="examples js-examples">
+                            <div class="row-tile example-row-tile">
+                                <div class="tile" id="example-tile">B</div>
+                                <div class="tile" id="example-tile">L</div>
+                                <div class="tile" id="example-tile">A</div>
+                                <div class="tile" id="example-tile">N</div>
+                                <div class="tile" id="example-tile">K</div>
+                            </div>
+                            <p class="example-para">
+                                <strong>L</strong> is in the word, but in the wrong spot.
+                            </p>
+                        </div>
+                        <div class="exampls js-examples">
+                            <div class="row-tile example-row-tile">
+                                <div class="tile" id="example-tile">C</div>
+                                <div class="tile" id="example-tile">H</div>
+                                <div class="tile" id="example-tile">O</div>
+                                <div class="tile" id="example-tile">R</div>
+                                <div class="tile" id="example-tile">E</div>
+                            </div>
+                            <p class= "example-para">
+                                <strong>R</strong> is not in the word in any spot.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="new-puzzle-time">
+                        <p>A new puzzle is released daily at midnight.</p>
+                    </div>
+                </section>
+            </div>
         </div> 
     </div>
    

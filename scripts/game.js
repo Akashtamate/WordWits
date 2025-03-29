@@ -4,6 +4,7 @@ const rows = 6; // Number of rows (maximum attempts)
 const cols = 5; // Number of columns (letters per word)
 
 let isGameOver = false; // Game over flag
+let isHelpOpen = false; // Help modal open flag
 
 // Defining keyboard layout (keys for each row)
 const rowOneKeys = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
@@ -18,6 +19,9 @@ let rowStates = Array(rows).fill(false); // Boolean array to track frozen (submi
 //Handling Invalid entry of letters
 const invalidEntryContainerEle = document.querySelector('.js-invalid-entry-container');
 const invalidEntryEle = invalidEntryContainerEle.querySelector('.js-inavalid-entry');
+
+const closeButtonEle = document.querySelector('.js-close-button');
+const howToPlayContainer = document.querySelector('.how-to-play-container');
 
 const dbWord = 'AKASH'; //For testing 
 const validWordsArr = ['ADIEU', 'AUDIO', 'GRECE', 'ROCHE', 'CHORE', 'BLISS', 'AKASH']; //For testing
@@ -38,6 +42,7 @@ for (let i = 0; i < rows; i++) {
         rowEle.appendChild(tileEle);
     }
 }
+
 
 // Creating the on-screen keyboard
 createKeys(rowOneKeys, 'row-one');
@@ -104,13 +109,14 @@ document.addEventListener('click', (event) => {
     }
 
     //Handle "help button" click
-    if(target.classList.contains('help-button')) {
+    if(target.closest('.help-button')) {
+        isHelpOpen = true;
         const howToPlayContainer = document.querySelector('.how-to-play-container');
         const topHeaderSection = document.querySelector('.top-header');
         const boardConbtainer = document.querySelector('.board-container');
         const keyboardContainer = document.querySelector('.keyboard-container');
-        
-        howToPlayContainer.style.display = "";
+        console.log("Entered help button click");
+        howToPlayContainer.style.display = "flex";
         topHeaderSection.style.pointerEvents = "none";
         boardConbtainer.style.pointerEvents = "none";
         keyboardContainer.style.pointerEvents = "none";
@@ -120,9 +126,22 @@ document.addEventListener('click', (event) => {
 });
 
 /**
+ * Event listner for closing the help modal
+ */
+closeButtonEle.addEventListener('click', () => {
+    howToPlayContainer.style.display = "none"; // Hide help modal
+    document.querySelector('.top-header').style.pointerEvents = "auto";
+    document.querySelector('.board-container').style.pointerEvents = "auto";
+    document.querySelector('.keyboard-container').style.pointerEvents = "auto";
+
+    isHelpOpen = false; // Reset flag when modal is closed
+});
+
+/**
  * Event listener for handling key presses from the physical keyboard
  */
 document.addEventListener('keydown', (event) => {
+    if (isHelpOpen) return; // Prevent keyboard input when help modal is open
     const key = event.key.toUpperCase();
     const eventFromKeyboard = true;
     if(key === 'ENTER') {
