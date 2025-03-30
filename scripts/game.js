@@ -130,6 +130,7 @@ document.addEventListener('click', (event) => {
  * Event listner for closing the help modal
  */
 closeButtonEle.addEventListener('click', () => {
+    console.log("Entered the close button");
     howToPlayContainer.style.display = "none"; // Hide help modal
     document.querySelector('.top-header').style.pointerEvents = "auto";
     document.querySelector('.board-container').style.pointerEvents = "auto";
@@ -412,7 +413,7 @@ function flipAnimation(currentRowTileIndex, isWin, resultColors) {
                     helpTileEle.style.border = 'none';
                 }, 250); // Change the color midway through flip
             }, i * 300); // Staggered delay for smooth effect
-        });
+        }); 
     }
     else {
         return new Promise((resolve) => {
